@@ -28,7 +28,7 @@ public class StudentServiceImpl implements StudentServiceInter {
         boolean passwordIsCorrect = false;
 
         for (int i = 0; i < GlobalDatas.studentsDynamicArray.length; i++) {
-            if (GlobalDatas.studentsDynamicArray[i].getUsername().equals(studentUsername)) {
+            if (GlobalDatas.studentsDynamicArray != null && GlobalDatas.studentsDynamicArray[i].getUsername().equals(studentUsername)) {
                 studentExists = true;
                 while (failedAttempts < 3) {
                     String password = inputRequiredString("Please enter password: ");

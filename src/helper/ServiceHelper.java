@@ -10,12 +10,15 @@ public class ServiceHelper {
         System.out.println("------------------\n");
         System.out.println(i+1 + ".Student\n");
         int id = inputRequiredInt("Id: ");
+        String name = inputRequiredString("Name: ");
+        String surname = inputRequiredString("Surname: ");
+        int age = inputRequiredInt("Age: ");
         String studentClass = inputRequiredString("Student Class: ");
         String email = inputRequiredString("Email: ");
         String password = inputRequiredString("Password: ");
         String username = inputRequiredString("Username: ");
 
-        return new Student(id,studentClass,email,password,username);
+        return new Student(surname,name,age,username,password,id,email,studentClass);
     }
     public static Teacher fillTeacher(int i) {
         System.out.println("------------------\n");

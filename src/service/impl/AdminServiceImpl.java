@@ -119,8 +119,9 @@ public class AdminServiceImpl implements AdminServiceInter {
                 System.err.println("There is no any student in this id number!");
             }
         }
-        return new Student(studentId, getStudentById().getEmail(), getStudentById().getStudentClass(),
-                getStudentById().getPassword(), getStudentById().getUsername());
+        return new Student(getStudentById().getSurname(), getStudentById().getName(), getStudentById().getAge(),
+                getStudentById().getUsername(), getStudentById().getPassword(), getStudentById().getId(),
+                getStudentById().getEmail(), getStudentById().getStudentClass());
     }
 
     @Override
