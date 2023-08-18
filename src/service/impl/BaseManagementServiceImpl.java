@@ -1,29 +1,48 @@
 package service.impl;
 
-import service.AdminManagementServiceInter;
-import service.BaseManagementServiceInter;
-import service.StudentManagementServiceInter;
-import service.TeacherManagementServiceInter;
+import service.*;
 
 import static util.MenuUtil.*;
 
 public class BaseManagementServiceImpl implements BaseManagementServiceInter {
+    AdminServiceInter adminServiceInter = new AdminServiceImpl();
+    StudentServiceInter studentServiceInter = new StudentServiceImpl();
+    TeacherServiceInter teacherServiceInter = new TeacherServiceImpl();
+    boolean isLoggedIn = false;
     @Override
     public void baseManagement() {
         while (true) {
             int option = entryMenu();
             switch (option) {
                 case 1:
-                    StudentManagementServiceInter studentManagementServiceInter = new StudentManagementServiceImpl();
-                    studentManagementServiceInter.studentManagement();
+                        studentServiceInter.studentLogIn();
+                        isLoggedIn = true;
+                        if (isLoggedIn) {
+                            StudentManagementServiceInter studentManagementServiceInter = new StudentManagementServiceImpl();
+                            studentManagementServiceInter.studentManagement();
+                        } else {
+                            System.err.println("Log In Unsuccessfully!");
+                        }
                     break;
                 case 2:
-                    TeacherManagementServiceInter teacherManagementServiceInter = new TeacherManagementServiceImpl();
-                    teacherManagementServiceInter.teacherManagement();
+                        teacherServiceInter.teacherLogIn();
+                        isLoggedIn = true;
+                        if (isLoggedIn) {
+                            TeacherManagementServiceInter teacherManagementServiceInter = new TeacherManagementServiceImpl();
+                            teacherManagementServiceInter.teacherManagement();
+                        } else {
+                            System.err.println("Log In Unsuccessfully!");
+                        }
                     break;
                 case 3:
-                    AdminManagementServiceInter adminManagementServiceInter = new AdminManagementServiceImpl();
-                    adminManagementServiceInter.adminManagement();
+                        adminServiceInter.adminLogIn();
+                        isLoggedIn = true;
+                        if (isLoggedIn) {
+                            AdminManagementServiceInter adminManagementServiceInter = new AdminManagementServiceImpl();
+                            adminManagementServiceInter.adminManagement();
+                        } else {
+                            System.err.println("Log In Unsuccessfully!");
+                        }
                     break;
                 case 0:
                     System.exit(-1);

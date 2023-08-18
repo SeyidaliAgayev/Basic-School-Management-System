@@ -1,10 +1,13 @@
 package service.impl;
 
 import data.GlobalDatas;
+import model.Admin;
 import model.Student;
 import model.Teacher;
 import service.AdminManagementServiceInter;
 import service.AdminServiceInter;
+import service.BaseManagementServiceInter;
+
 import static util.InputUtil.*;
 import static helper.ServiceHelper.*;
 
@@ -122,7 +125,7 @@ public class AdminServiceImpl implements AdminServiceInter {
 
     @Override
     public void addTeacher() {
-        int addTeacherCount = inputRequiredInt("How many students will be added: ");
+        int addTeacherCount = inputRequiredInt("How many teachers will be added: ");
         if (GlobalDatas.teachersDynamicArray == null) {
             GlobalDatas.teachersDynamicArray = new Teacher[addTeacherCount];
             for (int i = 0; i < GlobalDatas.teachersDynamicArray.length; i++) {
@@ -261,19 +264,23 @@ public class AdminServiceImpl implements AdminServiceInter {
         String adminUsername = inputRequiredString("Please enter username: ");
         boolean adminExists = false;
         boolean passwordIsCorrect = false;
-
+        {
+            Admin admin = new Admin("Ali","Ali12345");
+                GlobalDatas.adminsDynamicArray[0] = admin;
+        }
         for (int i = 0; i < GlobalDatas.adminsDynamicArray.length; i++) {
-            if (GlobalDatas.adminsDynamicArray[i].getUsername().equals(adminUsername)) {
+            if (GlobalDatas.adminsDynamicArray[0].getUsername().equals(adminUsername)) {
                 adminExists = true;
                 while (failedAttempts < 3) {
                     String password = inputRequiredString("Please enter password: ");
-                    if (GlobalDatas.adminsDynamicArray[i].getPassword().equals(password)) {
+                    if (GlobalDatas.adminsDynamicArray[0].getPassword().equals(password)) {
                         passwordIsCorrect = true;
                         failedAttempts = 0;
 
                         this.adminManagementServiceInter = new AdminManagementServiceImpl();
                         this.adminManagementServiceInter.adminManagement();
                     }
+
                     if (!passwordIsCorrect) {
                         System.err.println("Password is not correct!");
                         failedAttempts++;
@@ -286,6 +293,7 @@ public class AdminServiceImpl implements AdminServiceInter {
                         System.err.println("Log In Denied!");
                     }
                 }
+
             }
         }
     }

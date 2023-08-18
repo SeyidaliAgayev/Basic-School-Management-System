@@ -15,6 +15,10 @@ public class Employee extends Person{
         this.id = id;
     }
 
+    public Employee(String username, String password) {
+        super(username, password);
+    }
+
     public double getSalary() {
         return salary;
     }
