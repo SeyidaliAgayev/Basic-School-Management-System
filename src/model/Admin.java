@@ -1,7 +1,5 @@
 package model;
 
-import data.GlobalDatas;
-
 public class Admin extends Employee{
 
 
