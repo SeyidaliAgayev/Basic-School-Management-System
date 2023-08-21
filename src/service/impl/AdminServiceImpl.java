@@ -8,6 +8,7 @@ import model.Student;
 import model.Teacher;
 import service.AdminManagementServiceInter;
 import service.AdminServiceInter;
+import static helper.ArrayHelper.*;
 
 import static util.InputUtil.*;
 import static helper.ServiceHelper.*;
@@ -237,15 +238,11 @@ public class AdminServiceImpl implements AdminServiceInter {
     @Override
     public void searchForStudent() {
         String studentName = inputRequiredString("Please enter student's name to search: ");
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
-            if (person instanceof Student) {
-                Student student = (Student) person;
-                if (student.getName().equals(studentName)) {
-                    System.out.println(student.toString());
-                } else {
-                    System.err.println("There is no any student in this name!");
-                }
+        if (arrayChecker()) {
+            if (student.getName().equals(studentName)) {
+                System.out.println(student.toString());
+            } else {
+                System.err.println("There is no any student in this name!");
             }
         }
     }
@@ -254,16 +251,10 @@ public class AdminServiceImpl implements AdminServiceInter {
     public void deleteTeacher() {
         int id = inputRequiredInt("Which teacher do you want to delete: ");
 
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
-
-            if (person instanceof Teacher) {
-                Teacher teacher = (Teacher) person;
-                if (teacher.getId() == id) {
-                    personDynamicArrays.delete(teacher);
-                }
+        if (arrayChecker()) {
+            if (teacher.getId() == id) {
+                personDynamicArrays.delete(teacher);
             }
-            System.out.println("Teacher Deleted Successfully!");
         }
     }
 
@@ -276,37 +267,36 @@ public class AdminServiceImpl implements AdminServiceInter {
             Admin admin = new Admin("Ali", "Ali12345");
             personDynamicArrays.add(admin);
         }
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
-            if (person instanceof Admin) {
-                Admin admin = (Admin) person;
-                if (admin.getUsername().equals(adminUsername)) {
-                    adminExists = true;
-                    while (failedAttempts < 3) {
-                        String password = inputRequiredString("Please enter password: ");
-                        if (admin.getPassword().equals(password)) {
-                            passwordIsCorrect = true;
-                            failedAttempts = 0;
+        if (arrayChecker()) {
+            Admin admin = (Admin) person;
+            if (admin.getUsername().equals(adminUsername)) {
+                adminExists = true;
+                while (failedAttempts < 3) {
+                    String password = inputRequiredString("Please enter password: ");
+                    if (admin.getPassword().equals(password)) {
+                        passwordIsCorrect = true;
+                        failedAttempts = 0;
 
-                            this.adminManagementServiceInter = new AdminManagementServiceImpl();
-                            this.adminManagementServiceInter.adminManagement();
-                        }
-
-                        if (!passwordIsCorrect) {
-                            System.err.println("Password is not correct!");
-                            failedAttempts++;
-                        }
-                        if (failedAttempts == 3) {
-                            blockStatus = true;
-                            break;
-                        }
-                        if (blockStatus == true) {
-                            System.err.println("Log In Denied!");
-                        }
+                        this.adminManagementServiceInter = new AdminManagementServiceImpl();
+                        this.adminManagementServiceInter.adminManagement();
                     }
 
+                    if (!passwordIsCorrect) {
+                        System.err.println("Password is not correct!");
+                        failedAttempts++;
+                    }
+                    if (failedAttempts == 3) {
+                        blockStatus = true;
+                        break;
+                    }
+                    if (blockStatus == true) {
+                        System.err.println("Log In Denied!");
+                    }
                 }
+
             }
         }
+
     }
 }
+
