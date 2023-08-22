@@ -21,6 +21,12 @@ public class Teacher extends Employee{
     @Override
     public String toString() {
         return "Teacher{" +
+                "teacherId='" + getId() + '\'' +
+                "teacherName='" + getName() + '\'' +
+                "teacherSurname='" + getSurname() + '\'' +
+                "teacherUsername='" + getUsername() + '\'' +
+                "teacherAge='" + getAge() + '\'' +
+                "teacherSalary='" + getSalary() + '\'' +
                 "teacherClass='" + teacherClass + '\'' +
                 '}';
     }

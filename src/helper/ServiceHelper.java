@@ -8,7 +8,7 @@ import static util.InputUtil.*;
 public class ServiceHelper {
     public static Student fillStudent(int i) {
         System.out.println("------------------\n");
-        System.out.println(i+1 + ".Student\n");
+        System.out.println("Student\n");
         int id = inputRequiredInt("Id: ");
         String name = inputRequiredString("Name: ");
         String surname = inputRequiredString("Surname: ");
@@ -18,11 +18,11 @@ public class ServiceHelper {
         String password = inputRequiredString("Password: ");
         String username = inputRequiredString("Username: ");
 
-        return new Student(surname,name,age,username,password,id,email,studentClass);
+        return new Student(surname,name,age,username,password,id ,email,studentClass);
     }
     public static Teacher fillTeacher(int i) {
         System.out.println("------------------\n");
-        System.out.println(i+1 + ".Teacher\n");
+        System.out.println("Teacher\n");
         int id = inputRequiredInt("Id: ");
         String teacherClass = inputRequiredString("Teacher Class: ");
         String name = inputRequiredString("Name: ");

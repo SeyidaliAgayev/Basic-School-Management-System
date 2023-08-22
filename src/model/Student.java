@@ -45,7 +45,11 @@ public class Student extends Person{
     public String toString() {
         return "Student{" +
                 "id=" + id +
+                ", name='" + getName() + '\'' +
+                ", surname='" + getSurname() + '\'' +
+                ", age='" + getAge() + '\'' +
                 ", email='" + email + '\'' +
+                ", username='" + getUsername() + '\'' +
                 ", studentClass='" + studentClass + '\'' +
                 '}';
     }

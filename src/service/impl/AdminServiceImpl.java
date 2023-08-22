@@ -1,5 +1,6 @@
 package service.impl;
 
+import data.GlobalData;
 import data.PersonDynamicArrays;
 import data.impl.PersonDynamicArrayImpl;
 import model.Admin;
@@ -8,7 +9,7 @@ import model.Student;
 import model.Teacher;
 import service.AdminManagementServiceInter;
 import service.AdminServiceInter;
-import static helper.ArrayHelper.*;
+
 
 import static util.InputUtil.*;
 import static helper.ServiceHelper.*;
@@ -16,22 +17,26 @@ import static helper.ServiceHelper.*;
 public class AdminServiceImpl implements AdminServiceInter {
     private static int failedAttempts = 0;
     AdminManagementServiceInter adminManagementServiceInter = new AdminManagementServiceImpl();
-    PersonDynamicArrays personDynamicArrays = new PersonDynamicArrayImpl();
+
     boolean blockStatus = false;
 
     @Override
     public void searchForTeacher() {
         String teacherName = inputRequiredString("Please enter the teacher's name to search: ");
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
+        boolean teacherFound = false;
+
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
             if (person instanceof Teacher) {
                 Teacher teacher = (Teacher) person;
                 if (teacher.getName().equals(teacherName)) {
                     System.out.println(teacher.toString());
-                } else {
-                    System.err.println("There is no any teacher in this name!");
+                    teacherFound = true;
                 }
             }
+        }
+        if (!teacherFound) {
+            System.err.println("There is no any teacher in this name!");
         }
     }
 
@@ -42,13 +47,13 @@ public class AdminServiceImpl implements AdminServiceInter {
 
     @Override
     public void addStudent() {
-
         int addStudentCount = inputRequiredInt("How many students will be added: ");
         for (int i = 0; i < addStudentCount; i++) {
-            Student newStudent = fillStudent(personDynamicArrays.size() + i);
-            personDynamicArrays.add(newStudent);
+            Student newStudent = fillStudent(GlobalData.personDynamicArrays.size() + i);
+            GlobalData.personDynamicArrays.add(newStudent);
         }
     }
+
 
     @Override
     public void blockStudent() {
@@ -60,8 +65,8 @@ public class AdminServiceImpl implements AdminServiceInter {
         String studentName = inputRequiredString("Which student do you want to update: ");
         boolean isUpdated = false;
 
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
 
             if (person instanceof Student) {
                 Student student = (Student) person;
@@ -117,8 +122,8 @@ public class AdminServiceImpl implements AdminServiceInter {
     public Student getStudentById() {
         int studentId = inputRequiredInt("Please enter the student id: ");
 
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
 
             if (person instanceof Student) {
                 Student student = (Student) person;
@@ -138,8 +143,8 @@ public class AdminServiceImpl implements AdminServiceInter {
     public void addTeacher() {
         int addTeacherCount = inputRequiredInt("How many teachers will be added: ");
         for (int i = 0; i < addTeacherCount; i++) {
-            Teacher newTeachers = fillTeacher(personDynamicArrays.size() + i);
-            personDynamicArrays.add(newTeachers);
+            Teacher newTeachers = fillTeacher(GlobalData.personDynamicArrays.size() + i);
+            GlobalData.personDynamicArrays.add(newTeachers);
         }
     }
 
@@ -148,8 +153,8 @@ public class AdminServiceImpl implements AdminServiceInter {
         String teacherName = inputRequiredString("Which teacher do you want to update: ");
         boolean isUpdated = false;
 
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
 
             if (person instanceof Teacher) {
                 Teacher teacher = (Teacher) person;
@@ -195,14 +200,14 @@ public class AdminServiceImpl implements AdminServiceInter {
     public void deleteStudent() {
         int id = inputRequiredInt("Which student do you want to delete: ");
 
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
 
             if (person instanceof Student) {
                 Student student = (Student) person;
 
                 if (student.getId() == id) {
-                    personDynamicArrays.delete(student);
+                    GlobalData.personDynamicArrays.delete(student);
                 }
             }
             System.out.println("Student Deleted Successfully!");
@@ -219,8 +224,8 @@ public class AdminServiceImpl implements AdminServiceInter {
     public Teacher getTeacherById() {
         int teacherId = inputRequiredInt("Please enter teacher's id to search: ");
 
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
 
             if (person instanceof Teacher) {
                 Teacher teacher = (Teacher) person;
@@ -238,11 +243,15 @@ public class AdminServiceImpl implements AdminServiceInter {
     @Override
     public void searchForStudent() {
         String studentName = inputRequiredString("Please enter student's name to search: ");
-        if (arrayChecker()) {
-            if (student.getName().equals(studentName)) {
-                System.out.println(student.toString());
-            } else {
-                System.err.println("There is no any student in this name!");
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
+            if (person instanceof Student) {
+                Student student = (Student) person;
+                if (student.getName().equals(studentName)) {
+                    System.out.println(student.toString());
+                } else {
+                    System.err.println("There is no any student in this name!");
+                }
             }
         }
     }
@@ -251,9 +260,12 @@ public class AdminServiceImpl implements AdminServiceInter {
     public void deleteTeacher() {
         int id = inputRequiredInt("Which teacher do you want to delete: ");
 
-        if (arrayChecker()) {
-            if (teacher.getId() == id) {
-                personDynamicArrays.delete(teacher);
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
+
+            if (person instanceof Teacher) {
+                Teacher teacher = (Teacher) person;
+                GlobalData.personDynamicArrays.delete(teacher);
             }
         }
     }
@@ -265,38 +277,41 @@ public class AdminServiceImpl implements AdminServiceInter {
         boolean passwordIsCorrect = false;
         {
             Admin admin = new Admin("Ali", "Ali12345");
-            personDynamicArrays.add(admin);
+            GlobalData.personDynamicArrays.add(admin);
         }
-        if (arrayChecker()) {
-            Admin admin = (Admin) person;
-            if (admin.getUsername().equals(adminUsername)) {
-                adminExists = true;
-                while (failedAttempts < 3) {
-                    String password = inputRequiredString("Please enter password: ");
-                    if (admin.getPassword().equals(password)) {
-                        passwordIsCorrect = true;
-                        failedAttempts = 0;
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
+            if (person instanceof Admin) {
 
-                        this.adminManagementServiceInter = new AdminManagementServiceImpl();
-                        this.adminManagementServiceInter.adminManagement();
+                Admin admin = (Admin) person;
+                if (admin.getUsername().equals(adminUsername)) {
+                    adminExists = true;
+                    while (failedAttempts < 3) {
+                        String password = inputRequiredString("Please enter password: ");
+                        if (admin.getPassword().equals(password)) {
+                            passwordIsCorrect = true;
+                            failedAttempts = 0;
+
+                            this.adminManagementServiceInter = new AdminManagementServiceImpl();
+                            this.adminManagementServiceInter.adminManagement();
+                        }
+
+                        if (!passwordIsCorrect) {
+                            System.err.println("Password is not correct!");
+                            failedAttempts++;
+                        }
+                        if (failedAttempts == 3) {
+                            blockStatus = true;
+                            break;
+                        }
+                        if (blockStatus == true) {
+                            System.err.println("Log In Denied!");
+                        }
                     }
 
-                    if (!passwordIsCorrect) {
-                        System.err.println("Password is not correct!");
-                        failedAttempts++;
-                    }
-                    if (failedAttempts == 3) {
-                        blockStatus = true;
-                        break;
-                    }
-                    if (blockStatus == true) {
-                        System.err.println("Log In Denied!");
-                    }
                 }
-
             }
         }
-
     }
 }
 
