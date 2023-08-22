@@ -1,5 +1,6 @@
 package service.impl;
 
+import data.GlobalData;
 import data.PersonDynamicArrays;
 import data.impl.PersonDynamicArrayImpl;
 import model.Person;
@@ -12,13 +13,12 @@ import static util.InputUtil.inputRequiredString;
 public class StudentServiceImpl implements StudentServiceInter {
     private static int failedAttempts = 0;
     StudentManagementServiceInter studentManagementServiceInter = new StudentManagementServiceImpl();
-    PersonDynamicArrays personDynamicArrays = new PersonDynamicArrayImpl();
     boolean blockStatus = false;
 
     @Override
     public void seeInfo() {
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
             if (person instanceof Student) {
                 Student student = (Student) person;
                 if (student != null) {
@@ -35,9 +35,10 @@ public class StudentServiceImpl implements StudentServiceInter {
         String studentUsername = inputRequiredString("Please enter username: ");
         boolean studentExists = false;
         boolean passwordIsCorrect = false;
+        boolean isLoggedIn = false;
 
-        for (int i = 0; i < personDynamicArrays.size(); i++) {
-            Person person = personDynamicArrays.get(i);
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
             if (person instanceof Student) {
                 Student student = (Student) person;
                 if (student.getUsername().equals(studentUsername)) {
@@ -46,24 +47,35 @@ public class StudentServiceImpl implements StudentServiceInter {
                         String password = inputRequiredString("Please enter password: ");
                         if (student.getPassword().equals(password)) {
                             passwordIsCorrect = true;
+                            isLoggedIn = true;
                             failedAttempts = 0;
-
                             this.studentManagementServiceInter = new StudentManagementServiceImpl();
                             this.studentManagementServiceInter.studentManagement();
+                            System.out.println("Log In Successfully!");
                         }
-                        if (!passwordIsCorrect) {
-                            System.err.println("Password is not correct!");
-                            failedAttempts++;
-                        }
-                        if (failedAttempts == 3) {
-                            blockStatus = true;
-                            break;
-                        }
-                        if (blockStatus == true) {
-                            System.err.println("Log In Denied!");
-                        }
+                        System.err.println("Password is not correct!");
+                        failedAttempts++;
+
+                    }
+                    if (!passwordIsCorrect) {
+                        blockStatus = true;
+                        break;
                     }
                 }
+            }
+        }
+        if (!studentExists) {
+            System.err.println("There is no any student in this username: " + studentUsername);
+        }
+        if (!isLoggedIn && blockStatus) {
+            System.err.println("Log In Denied!");
+            failedAttempts = 0;
+            new StudentManagementServiceImpl().studentManagement();
+        } else if (!isLoggedIn) {
+            System.err.println("Log In Unsuccessfully!");
+            failedAttempts = 0;
+            if (failedAttempts == 3) {
+                new StudentManagementServiceImpl().studentManagement();
             }
         }
     }

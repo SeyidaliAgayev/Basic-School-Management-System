@@ -9,6 +9,7 @@ import model.Student;
 import model.Teacher;
 import service.AdminManagementServiceInter;
 import service.AdminServiceInter;
+import service.BaseManagementServiceInter;
 
 
 import static util.InputUtil.*;
@@ -275,14 +276,16 @@ public class AdminServiceImpl implements AdminServiceInter {
         String adminUsername = inputRequiredString("Please enter username: ");
         boolean adminExists = false;
         boolean passwordIsCorrect = false;
+        boolean isLoggedIn = false;
+
         {
             Admin admin = new Admin("Ali", "Ali12345");
             GlobalData.personDynamicArrays.add(admin);
         }
+
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             Person person = GlobalData.personDynamicArrays.get(i);
             if (person instanceof Admin) {
-
                 Admin admin = (Admin) person;
                 if (admin.getUsername().equals(adminUsername)) {
                     adminExists = true;
@@ -290,26 +293,36 @@ public class AdminServiceImpl implements AdminServiceInter {
                         String password = inputRequiredString("Please enter password: ");
                         if (admin.getPassword().equals(password)) {
                             passwordIsCorrect = true;
+                            isLoggedIn = true;
                             failedAttempts = 0;
-
                             this.adminManagementServiceInter = new AdminManagementServiceImpl();
                             this.adminManagementServiceInter.adminManagement();
-                        }
-
-                        if (!passwordIsCorrect) {
-                            System.err.println("Password is not correct!");
-                            failedAttempts++;
-                        }
-                        if (failedAttempts == 3) {
-                            blockStatus = true;
+                            System.out.println("Log In Successfully!");
                             break;
                         }
-                        if (blockStatus == true) {
-                            System.err.println("Log In Denied!");
-                        }
+                        System.err.println("Password is not correct!");
+                        failedAttempts++;
                     }
-
+                    if (!passwordIsCorrect) {
+                        blockStatus = true;
+                        break;
+                    }
                 }
+            }
+        }
+        if (!adminExists) {
+            System.err.println("There is no any admin in this username: " + adminUsername);
+        }
+        if (!isLoggedIn && blockStatus) {
+            System.err.println("Log In Denied!");
+            failedAttempts = 0;
+            new BaseManagementServiceImpl().baseManagement();
+
+        } else if (!isLoggedIn) {
+            System.err.println("Log In Unsuccessfully!");
+            failedAttempts = 0;
+            if (failedAttempts == 3) {
+                new BaseManagementServiceImpl().baseManagement();
             }
         }
     }
