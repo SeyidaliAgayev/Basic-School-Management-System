@@ -3,6 +3,7 @@ package service.impl;
 import data.GlobalData;
 import data.PersonDynamicArrays;
 import data.impl.PersonDynamicArrayImpl;
+import enums.StatusEnum;
 import model.Person;
 import model.Teacher;
 import service.TeacherManagementServiceInter;
@@ -36,7 +37,7 @@ public class TeacherServiceImpl implements TeacherServiceInter {
                 if (teacher != null) {
                     System.out.println(teacher.toString());
                 } else {
-                    System.err.println("Student List is Empty!");
+                    System.out.println(StatusEnum.LIST_IS_EMPTY);
                 }
             }
         }
@@ -63,9 +64,9 @@ public class TeacherServiceImpl implements TeacherServiceInter {
                             failedAttempts = 0;
                             this.teacherManagementServiceInter = new TeacherManagementServiceImpl();
                             this.teacherManagementServiceInter.teacherManagement();
-                            System.out.println("Log In Successfully!");
+                            System.out.println(StatusEnum.LOG_IN_SUCCESSFULLY);
                         }
-                        System.err.println("Password is not correct!");
+                        System.err.println(StatusEnum.PASSWORD_IS_NOT_CORRECT);
                         failedAttempts++;
                     }
                     if (!passwordIsCorrect) {
@@ -76,14 +77,15 @@ public class TeacherServiceImpl implements TeacherServiceInter {
             }
         }
         if (!teacherExists) {
-            System.err.println("There is no any teacher in this username: " + teacherUsername);
+            System.err.println(StatusEnum.THERE_IS_NO_ANY_PERSON_WITH_THIS_NAME + teacherUsername);
+            new TeacherManagementServiceImpl().teacherManagement();
         }
         if (!isLoggedIn && blockStatus) {
-            System.err.println("Log In Denied!");
+            System.err.println(StatusEnum.LOG_IN_DENIED);
             failedAttempts = 0;
             new TeacherManagementServiceImpl().teacherManagement();
         } else if (!isLoggedIn) {
-            System.err.println("Log In Unsuccessfully!");
+            System.out.println(StatusEnum.LOG_IN_UNSUCCESSFULLY);
             failedAttempts = 0;
             if (failedAttempts == 3) {
                 new TeacherManagementServiceImpl().teacherManagement();

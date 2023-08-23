@@ -1,8 +1,7 @@
 package service.impl;
 
 import data.GlobalData;
-import data.PersonDynamicArrays;
-import data.impl.PersonDynamicArrayImpl;
+import enums.StatusEnum;
 import model.Person;
 import model.Student;
 import service.StudentManagementServiceInter;
@@ -24,7 +23,7 @@ public class StudentServiceImpl implements StudentServiceInter {
                 if (student != null) {
                     System.out.println(student.toString());
                 } else {
-                    System.err.println("Student List is Empty!");
+                    System.err.println(StatusEnum.LIST_IS_EMPTY);
                 }
             }
         }
@@ -51,9 +50,9 @@ public class StudentServiceImpl implements StudentServiceInter {
                             failedAttempts = 0;
                             this.studentManagementServiceInter = new StudentManagementServiceImpl();
                             this.studentManagementServiceInter.studentManagement();
-                            System.out.println("Log In Successfully!");
+                            System.out.println(StatusEnum.LOG_IN_SUCCESSFULLY);
                         }
-                        System.err.println("Password is not correct!");
+                        System.err.println(StatusEnum.PASSWORD_IS_NOT_CORRECT);
                         failedAttempts++;
 
                     }
@@ -65,14 +64,15 @@ public class StudentServiceImpl implements StudentServiceInter {
             }
         }
         if (!studentExists) {
-            System.err.println("There is no any student in this username: " + studentUsername);
+            System.err.println(StatusEnum.THERE_IS_NO_ANY_PERSON_WITH_THIS_NAME + studentUsername);
+            new StudentManagementServiceImpl().studentManagement();
         }
         if (!isLoggedIn && blockStatus) {
-            System.err.println("Log In Denied!");
+            System.err.println(StatusEnum.LOG_IN_DENIED);
             failedAttempts = 0;
             new StudentManagementServiceImpl().studentManagement();
         } else if (!isLoggedIn) {
-            System.err.println("Log In Unsuccessfully!");
+            System.err.println(StatusEnum.LOG_IN_UNSUCCESSFULLY);
             failedAttempts = 0;
             if (failedAttempts == 3) {
                 new StudentManagementServiceImpl().studentManagement();

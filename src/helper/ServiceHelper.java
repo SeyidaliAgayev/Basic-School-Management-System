@@ -1,11 +1,21 @@
 package helper;
 
 
+import data.GlobalData;
+import model.Admin;
 import model.Student;
 import model.Teacher;
+import model.Person;
+import service.AdminManagementServiceInter;
+import service.impl.AdminManagementServiceImpl;
+import service.impl.BaseManagementServiceImpl;
+
 import static util.InputUtil.*;
 
+
 public class ServiceHelper {
+    private static int failedAttempts = 0;
+    AdminManagementServiceInter adminManagementServiceInter = new AdminManagementServiceImpl();
     public static Student fillStudent(int i) {
         System.out.println("------------------\n");
         System.out.println("Student\n");
@@ -34,4 +44,9 @@ public class ServiceHelper {
 
         return new Teacher(surname,name,age,username,password,salary,id,teacherClass);
     }
+
+
+
+
 }
+

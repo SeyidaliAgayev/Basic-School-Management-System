@@ -28,10 +28,12 @@ public class MenuUtil {
                            <7> Block Student
                            <8> Block Teacher
                            <9> Open Block
-                           <10> Search For Student
-                           <11> Search For Teacher
+                           <10> Search Student (For Name)
+                           <11> Search Teacher (For Name)
                            <12> Admin Log in
-                           <13> Back To Log In
+                           <13> Search Student (For ID)
+                           <14> Search Teacher (For ID)
+                           <15> Back To Log In
                            <0> Exit!
                            ++++++++++++++++++++++++++++++++++++++++++++
                            """
