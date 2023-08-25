@@ -31,7 +31,7 @@ public class PersonDynamicArrayImpl implements PersonDynamicArrays {
     }
 
     @Override
-    public void delete(Person person) {
+    public void deleteForName(Person person) {
         Person[] newPersons = new Person[persons.length - 1];
 
         int newIndex = 0;
@@ -41,6 +41,31 @@ public class PersonDynamicArrayImpl implements PersonDynamicArrays {
                 newPersons[newIndex] = persons[i];
                 newIndex++;
             }
+        }
+        persons = newPersons;
+    }
+
+    @Override
+    public void deleteForId (int... index) { // 1,3
+        // person.length = 4
+        //
+        for (int i = 0; i < index.length; i++) {
+            if (index[i] < 0 || index[i] >= persons.length) {
+                System.err.println("Wrong input!!!");
+                return;
+            }
+        }
+        Person[] newPersons = new Person[persons.length - index.length];
+
+        for (int i = 0, j = 0, k = 0; i < persons.length; i++) {
+            if (k < index.length) {
+                if (i == index[k]) {
+                    k++;
+                    continue;
+                }
+            }
+
+            newPersons[j++] = persons[i];
         }
         persons = newPersons;
     }

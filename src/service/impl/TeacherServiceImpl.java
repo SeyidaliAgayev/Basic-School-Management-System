@@ -1,9 +1,9 @@
 package service.impl;
 
 import data.GlobalData;
-import data.PersonDynamicArrays;
-import data.impl.PersonDynamicArrayImpl;
+import enums.ExceptionEnum;
 import enums.StatusEnum;
+import exceptions.ServiceExceptions;
 import model.Person;
 import model.Teacher;
 import service.TeacherManagementServiceInter;
@@ -37,7 +37,7 @@ public class TeacherServiceImpl implements TeacherServiceInter {
                 if (teacher != null) {
                     System.out.println(teacher.toString());
                 } else {
-                    System.out.println(StatusEnum.LIST_IS_EMPTY);
+                    throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
                 }
             }
         }
@@ -45,6 +45,9 @@ public class TeacherServiceImpl implements TeacherServiceInter {
 
     @Override
     public void teacherLogIn() {
+        if (GlobalData.personDynamicArrays.size() == 0 || GlobalData.personDynamicArrays == null) {
+            throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
+        }
         String teacherUsername = inputRequiredString("Please enter username: ");
         boolean teacherExists = false;
         boolean passwordIsCorrect = false;
@@ -66,8 +69,8 @@ public class TeacherServiceImpl implements TeacherServiceInter {
                             this.teacherManagementServiceInter.teacherManagement();
                             System.out.println(StatusEnum.LOG_IN_SUCCESSFULLY);
                         }
-                        System.err.println(StatusEnum.PASSWORD_IS_NOT_CORRECT);
                         failedAttempts++;
+                        throw new ServiceExceptions(ExceptionEnum.INCORRECT_PASSWORD);
                     }
                     if (!passwordIsCorrect) {
                         blockStatus = true;
@@ -77,13 +80,13 @@ public class TeacherServiceImpl implements TeacherServiceInter {
             }
         }
         if (!teacherExists) {
-            System.err.println(StatusEnum.THERE_IS_NO_ANY_PERSON_WITH_THIS_NAME + teacherUsername);
             new TeacherManagementServiceImpl().teacherManagement();
+            throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
         }
         if (!isLoggedIn && blockStatus) {
-            System.err.println(StatusEnum.LOG_IN_DENIED);
             failedAttempts = 0;
             new TeacherManagementServiceImpl().teacherManagement();
+            throw new ServiceExceptions(ExceptionEnum.LOG_IN_DENIED);
         } else if (!isLoggedIn) {
             System.out.println(StatusEnum.LOG_IN_UNSUCCESSFULLY);
             failedAttempts = 0;

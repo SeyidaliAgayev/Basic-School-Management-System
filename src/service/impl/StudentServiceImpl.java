@@ -1,7 +1,9 @@
 package service.impl;
 
 import data.GlobalData;
+import enums.ExceptionEnum;
 import enums.StatusEnum;
+import exceptions.ServiceExceptions;
 import model.Person;
 import model.Student;
 import service.StudentManagementServiceInter;
@@ -23,7 +25,7 @@ public class StudentServiceImpl implements StudentServiceInter {
                 if (student != null) {
                     System.out.println(student.toString());
                 } else {
-                    System.err.println(StatusEnum.LIST_IS_EMPTY);
+                    throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
                 }
             }
         }
@@ -52,8 +54,9 @@ public class StudentServiceImpl implements StudentServiceInter {
                             this.studentManagementServiceInter.studentManagement();
                             System.out.println(StatusEnum.LOG_IN_SUCCESSFULLY);
                         }
-                        System.err.println(StatusEnum.PASSWORD_IS_NOT_CORRECT);
                         failedAttempts++;
+                        throw new ServiceExceptions(ExceptionEnum.INCORRECT_PASSWORD);
+
 
                     }
                     if (!passwordIsCorrect) {
@@ -64,13 +67,13 @@ public class StudentServiceImpl implements StudentServiceInter {
             }
         }
         if (!studentExists) {
-            System.err.println(StatusEnum.THERE_IS_NO_ANY_PERSON_WITH_THIS_NAME + studentUsername);
             new StudentManagementServiceImpl().studentManagement();
+            throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
         }
         if (!isLoggedIn && blockStatus) {
-            System.err.println(StatusEnum.LOG_IN_DENIED);
             failedAttempts = 0;
             new StudentManagementServiceImpl().studentManagement();
+            throw new ServiceExceptions(ExceptionEnum.LOG_IN_DENIED);
         } else if (!isLoggedIn) {
             System.err.println(StatusEnum.LOG_IN_UNSUCCESSFULLY);
             failedAttempts = 0;

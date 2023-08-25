@@ -1,15 +1,47 @@
 package helper;
 
 import data.GlobalData;
+import enums.ExceptionEnum;
 import enums.StatusEnum;
+import exceptions.ServiceExceptions;
 import model.Person;
 import model.Student;
 import model.Teacher;
 
 import static util.InputUtil.inputRequiredString;
+import static util.InputUtil.*;
 
 public class DeleteHelper {
-    public static void personDelete(String personType) {
+
+    public static void personDeleteForId(String personType) {
+        int[] id = inputRequiredIntArray("Enter ID to delete: ");
+        if (GlobalData.personDynamicArrays.size() == 0 && GlobalData.personDynamicArrays == null) {
+            throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
+        }
+
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
+            if (personType.equals("Student") && person instanceof Student) {
+                Student student = (Student) person;
+                for (int j = 0; j < id.length; j++) {
+                    if (student.getId() == id[j]) {
+                        GlobalData.personDynamicArrays.deleteForId(id[j]);
+                    }
+                }
+
+            }
+            if (personType.equals("Teacher") && person instanceof Teacher) {
+                Teacher teacher = (Teacher) person;
+                for (int j = 0; j <id.length ; j++) {
+                    if (teacher.getId() == id[j]) {
+                        GlobalData.personDynamicArrays.deleteForId(id[j]);
+                    }
+                }
+
+            }
+        }
+    }
+    public static void personDeleteForName(String personType) {
         String personName = inputRequiredString("Please enter person's name to delete: ");
         boolean foundPerson = false;
         Student[] studentWithSameName = new Student[GlobalData.personDynamicArrays.size()];
@@ -18,7 +50,7 @@ public class DeleteHelper {
         int sameTeacherCount = 0;
 
         if (GlobalData.personDynamicArrays == null && GlobalData.personDynamicArrays.size() == 0) {
-            System.out.println(StatusEnum.LIST_IS_EMPTY);
+            throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
         }
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             Person person = GlobalData.personDynamicArrays.get(i);
@@ -42,7 +74,7 @@ public class DeleteHelper {
             }
         }
         if (!foundPerson) {
-            System.out.println(StatusEnum.THERE_IS_NO_ANY_PERSON_WITH_THIS_NAME + ": " + personName);
+            throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
         }
         if (sameStudentCount > 0) {
             System.out.println(StatusEnum.THERE_ARE_MANY_STUDENT_WITH_THIS_NAME + ": " + personName);
@@ -50,7 +82,7 @@ public class DeleteHelper {
             for (int i = 0; i < sameStudentCount; i++) {
                 Student student = studentWithSameName[i];
                 if (student.getUsername().equals(studentUsername)) {
-                    GlobalData.personDynamicArrays.delete(student);
+                    GlobalData.personDynamicArrays.deleteForName(student);
                     System.out.println(StatusEnum.DELETE_SUCCESSFULLY);
                 }
             }
@@ -61,7 +93,7 @@ public class DeleteHelper {
             for (int i = 0; i < sameTeacherCount; i++) {
                 Teacher teacher = teacherWithSameName[i];
                 if (teacher.getUsername().equals(teacherUsername)) {
-                    GlobalData.personDynamicArrays.delete(teacher);
+                    GlobalData.personDynamicArrays.deleteForName(teacher);
                     System.out.println(StatusEnum.DELETE_SUCCESSFULLY);
                 }
             }

@@ -1,7 +1,9 @@
 package helper;
 
 import data.GlobalData;
+import enums.ExceptionEnum;
 import enums.StatusEnum;
+import exceptions.ServiceExceptions;
 import model.Person;
 import model.Student;
 import model.Teacher;
@@ -14,7 +16,7 @@ public class UpdateHelper {
         boolean isUpdated = false;
 
         if (GlobalData.personDynamicArrays == null && GlobalData.personDynamicArrays.size() == 0) {
-            System.out.println(StatusEnum.LIST_IS_EMPTY);
+            throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
         }
 
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
@@ -58,7 +60,7 @@ public class UpdateHelper {
                                 isUpdated = true;
                                 break;
                             default:
-                                System.err.println("Invalid Option!");
+                                throw new ServiceExceptions(ExceptionEnum.INVALID_OPTION);
                         }
                     }
                     if (isUpdated) {
@@ -95,7 +97,7 @@ public class UpdateHelper {
                                 isUpdated = true;
                                 break;
                             default:
-                                System.err.println(StatusEnum.INVALID_OPTION);
+                                throw new ServiceExceptions(ExceptionEnum.INVALID_OPTION);
                         }
                     }
                     if (isUpdated) {

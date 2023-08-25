@@ -1,6 +1,4 @@
 package service;
-import model.Student;
-import model.Teacher;
 
 public interface AdminServiceInter {
     void searchForTeacher();
@@ -8,14 +6,16 @@ public interface AdminServiceInter {
     void addStudent();
     void blockStudent();
     void updateStudent();
-    Student getStudentById();
+    void getStudentById();
     void addTeacher();
     void updateTeacher();
-    void deleteStudent();
+    void deleteStudentForName();
+    void deleteTeacherForId();
+    void deleteStudentForId();
     void blockTeacher();
-    Teacher getTeacherById();
+    void getTeacherById();
     void searchForStudent();
-    void deleteTeacher();
+    void deleteTeacherForName();
     void adminLogIn();
 
 }

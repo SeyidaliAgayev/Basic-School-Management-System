@@ -11,6 +11,12 @@ public class InputUtil {
         return scanner.nextInt();
     }
 
+    public static int[] inputRequiredIntArray(String title) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(title);
+        return new int[]{scanner.nextInt()};
+    }
+
     public static String inputRequiredString(String title) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(title);

@@ -21,19 +21,21 @@ public class MenuUtil {
                            ++++++++++++++++++++++++++++++++++++++++++++
                            <1> Add Student
                            <2> Add Teacher
-                           <3> Delete Student
-                           <4> Delete Teacher
-                           <5> Update Student
-                           <6> Update Teacher
-                           <7> Block Student
-                           <8> Block Teacher
-                           <9> Open Block
-                           <10> Search Student (For Name)
-                           <11> Search Teacher (For Name)
-                           <12> Admin Log in
-                           <13> Search Student (For ID)
-                           <14> Search Teacher (For ID)
-                           <15> Back To Log In
+                           <3> Delete Student For Name
+                           <4> Delete Teacher For Name
+                           <5> Delete Student For ID
+                           <6> Delete Teacher For ID
+                           <7> Update Student
+                           <8> Update Teacher
+                           <9> Block Student
+                           <10> Block Teacher
+                           <11> Open Block
+                           <12> Search Student (For Name)
+                           <13> Search Teacher (For Name)
+                           <14> Admin Log in
+                           <15> Search Student (For ID)
+                           <16> Search Teacher (For ID)
+                           <17> Back To Log In
                            <0> Exit!
                            ++++++++++++++++++++++++++++++++++++++++++++
                            """

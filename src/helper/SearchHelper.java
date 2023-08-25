@@ -1,7 +1,8 @@
 package helper;
 
 import data.GlobalData;
-import enums.StatusEnum;
+import enums.ExceptionEnum;
+import exceptions.ServiceExceptions;
 import model.Person;
 import model.Student;
 import model.Teacher;
@@ -11,6 +12,9 @@ import static util.InputUtil.inputRequiredString;
 
 public class SearchHelper {
     public static void personSearchForName(String personType) {
+        if (GlobalData.personDynamicArrays.size() == 0 && GlobalData.personDynamicArrays == null) {
+            throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
+        }
         Student[] studentsWithSameName = new Student[GlobalData.personDynamicArrays.size()];
         Teacher[] teacherWithSameName = new Teacher[GlobalData.personDynamicArrays.size()];
         boolean foundPerson = false;
@@ -38,7 +42,7 @@ public class SearchHelper {
             }
         }
         if (!foundPerson) {
-            System.err.println(StatusEnum.THERE_IS_NO_ANY_PERSON_WITH_THIS_NAME + ": " + personName);
+            throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
         }
         if (sameStudentCount > 0) {
             for (int i = 0; i < sameStudentCount; i++) {
@@ -54,26 +58,27 @@ public class SearchHelper {
         }
     }
 
-    public static void personSearchForId(String personType) {
+    public static Person personSearchForId(String personType) {
+        Person finalPerson = null;
         int personId = inputRequiredInt("Please enter person's id to search: ");
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             Person person = GlobalData.personDynamicArrays.get(i);
             if (personType.equals("Student") && person instanceof Student) {
                 Student student = (Student) person;
                 if (student.getId() == personId) {
-                    System.out.println(student.toString());
-                } else {
-                    System.err.println(StatusEnum.THERE_IS_NO_ANY_PERSON_WITH_THIS_ID + ": " + personId);
+                    finalPerson = student;
                 }
             }
             if (personType.equals("Teacher") && person instanceof Teacher) {
                 Teacher teacher = (Teacher) person;
                 if (teacher.getId() == personId) {
-                    System.out.println(teacher.toString());
-                } else {
-                    System.err.println(StatusEnum.THERE_IS_NO_ANY_PERSON_WITH_THIS_ID + ": " + personId);
+                    finalPerson = teacher;
                 }
             }
         }
+        if (finalPerson == null) {
+            throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
+        }
+        return finalPerson;
     }
 }

@@ -1,5 +1,7 @@
 package service.impl;
 
+import enums.ExceptionEnum;
+import exceptions.ServiceExceptions;
 import service.*;
 
 import static util.MenuUtil.*;
@@ -12,9 +14,10 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
     @Override
     public void baseManagement() {
         while (true) {
-            int option = entryMenu();
-            switch (option) {
-                case 1:
+            try {
+                int option = entryMenu();
+                switch (option) {
+                    case 1:
                         studentServiceInter.studentLogIn();
                         isLoggedIn = true;
                         if (isLoggedIn) {
@@ -23,8 +26,8 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
                         } else {
                             System.err.println("Log In Unsuccessfully!");
                         }
-                    break;
-                case 2:
+                        break;
+                    case 2:
                         teacherServiceInter.teacherLogIn();
                         isLoggedIn = true;
                         if (isLoggedIn) {
@@ -33,8 +36,8 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
                         } else {
                             System.err.println("Log In Unsuccessfully!");
                         }
-                    break;
-                case 3:
+                        break;
+                    case 3:
                         adminServiceInter.adminLogIn();
                         isLoggedIn = true;
                         if (isLoggedIn) {
@@ -43,12 +46,18 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
                         } else {
                             System.err.println("Log In Unsuccessfully!");
                         }
-                    break;
-                case 0:
-                    System.exit(-1);
-                default:
-                    System.err.println("Invalid Option!");
+                        break;
+                    case 0:
+                        System.exit(-1);
+                    default:
+                        throw new ServiceExceptions(ExceptionEnum.INVALID_OPTION);
+                }
+            } catch (ServiceExceptions exception) {
+                System.err.println(exception.getMessage());
+            } catch (RuntimeException exception) {
+                System.err.println("Wrong Input!");
             }
+
         }
     }
 }

@@ -1,7 +1,9 @@
 package service.impl;
 
 import data.GlobalData;
+import enums.ExceptionEnum;
 import enums.StatusEnum;
+import exceptions.ServiceExceptions;
 import model.Admin;
 import model.Person;
 import model.Student;
@@ -57,13 +59,24 @@ public class AdminServiceImpl implements AdminServiceInter {
     }
 
     @Override
-    public void deleteTeacher() {
-        personDelete("Teacher");
+    public void deleteTeacherForName() {
+        personDeleteForName("Teacher");
     }
     @Override
-    public void deleteStudent() {
-        personDelete("Student");
+    public void deleteStudentForName() {
+        personDeleteForName("Student");
     }
+
+    @Override
+    public void deleteTeacherForId() {
+        personDeleteForId("Teacher");
+    }
+
+    @Override
+    public void deleteStudentForId() {
+        personDeleteForId("Student");
+    }
+
     @Override
     public void blockTeacher() {
         blockStatus = true;
@@ -77,18 +90,15 @@ public class AdminServiceImpl implements AdminServiceInter {
         blockStatus = true;
     }
     @Override
-    public Student getStudentById() {
-        personSearchForId("Student");
-        return new Student(getStudentById().getSurname(), getStudentById().getName(), getStudentById().getAge(),
-                getStudentById().getUsername(), getStudentById().getPassword(), getStudentById().getId(),
-                getStudentById().getEmail(), getStudentById().getStudentClass());
+    public void getStudentById() {
+        Person personWithStudents = personSearchForId("Student");
+        System.out.println(personWithStudents.toString());
     }
 
     @Override
-    public Teacher getTeacherById() {
-        personSearchForId("Teacher");
-        return new Teacher(getTeacherById().getSurname(), getTeacherById().getName(), getTeacherById().getAge(), getTeacherById().getUsername(),
-                getTeacherById().getPassword(), getTeacherById().getSalary(), getTeacherById().getId(), getTeacherById().getTeacherClass());
+    public void getTeacherById() {
+        Person personWithTeacher = personSearchForId("Teacher");
+        System.out.println(personWithTeacher.toString());
     }
 
     @Override
@@ -120,8 +130,8 @@ public class AdminServiceImpl implements AdminServiceInter {
                             System.out.println(StatusEnum.LOG_IN_SUCCESSFULLY);
                             break;
                         }
-                        System.err.println(StatusEnum.PASSWORD_IS_NOT_CORRECT);
                         failedAttempts++;
+                        System.err.println("Password is not correct!");
                     }
                     if (!passwordIsCorrect) {
                         blockStatus = true;
@@ -131,19 +141,20 @@ public class AdminServiceImpl implements AdminServiceInter {
             }
         }
         if (!adminExists) {
-            System.err.println(StatusEnum.THERE_IS_NO_ANY_PERSON_WITH_THIS_NAME + ": " + adminUsername);
             new BaseManagementServiceImpl().baseManagement();
+            throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
         }
         if (!isLoggedIn && blockStatus) {
-            System.err.println(StatusEnum.LOG_IN_DENIED);
             failedAttempts = 0;
             new BaseManagementServiceImpl().baseManagement();
+            throw new ServiceExceptions(ExceptionEnum.LOG_IN_DENIED);
 
         } else if (!isLoggedIn) {
             System.err.println(StatusEnum.LOG_IN_UNSUCCESSFULLY);
             failedAttempts = 0;
             if (failedAttempts == 3) {
                 new BaseManagementServiceImpl().baseManagement();
+                throw new ServiceExceptions(ExceptionEnum.INCORRECT_PASSWORD);
             }
         }
     }
