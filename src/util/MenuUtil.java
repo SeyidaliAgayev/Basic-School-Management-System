@@ -35,7 +35,9 @@ public class MenuUtil {
                            <14> Admin Log in
                            <15> Search Student (For ID)
                            <16> Search Teacher (For ID)
-                           <17> Back To Log In
+                           <17> See All Information (Students)
+                           <18> See All Information (Teachers)
+                           <19> Back To Log In
                            <0> Exit!
                            ++++++++++++++++++++++++++++++++++++++++++++
                            """

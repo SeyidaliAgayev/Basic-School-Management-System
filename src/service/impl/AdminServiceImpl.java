@@ -15,6 +15,7 @@ import static helper.UpdateHelper.*;
 import static helper.ServiceHelper.*;
 import static helper.SearchHelper.*;
 import static helper.DeleteHelper.*;
+import static helper.ShowInformationHelper.*;
 
 
 import static util.InputUtil.*;
@@ -35,6 +36,16 @@ public class AdminServiceImpl implements AdminServiceInter {
     @Override
     public void searchForStudent() {
         personSearchForName("Student");
+    }
+
+    @Override
+    public void seeAllTeachersInformation() {
+        seeInformation("Teacher");
+    }
+
+    @Override
+    public void seeAllStudentsInformation() {
+        seeInformation("Student");
     }
 
     @Override

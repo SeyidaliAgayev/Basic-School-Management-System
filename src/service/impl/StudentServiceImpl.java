@@ -18,16 +18,21 @@ public class StudentServiceImpl implements StudentServiceInter {
 
     @Override
     public void seeInfo() {
+        String studentUsername = inputRequiredString("Please enter username: ");
+        String studentPassword = inputRequiredString("Please enter password: ");
+        boolean studentFound = false;
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             Person person = GlobalData.personDynamicArrays.get(i);
             if (person instanceof Student) {
                 Student student = (Student) person;
-                if (student != null) {
+                if (student != null && student.getUsername().equals(studentUsername) && student.getPassword().equals(studentPassword)) {
+                    studentFound = true;
                     System.out.println(student.toString());
-                } else {
-                    throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
                 }
             }
+        }
+        if (!studentFound) {
+            throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
         }
     }
 

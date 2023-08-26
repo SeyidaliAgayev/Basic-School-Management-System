@@ -1,6 +1,8 @@
 package service;
 
 public interface AdminServiceInter {
+    void seeAllTeachersInformation();
+    void seeAllStudentsInformation();
     void searchForTeacher();
     void openBlock();
     void addStudent();

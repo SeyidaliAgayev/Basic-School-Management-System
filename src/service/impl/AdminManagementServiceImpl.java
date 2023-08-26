@@ -66,6 +66,12 @@ public class AdminManagementServiceImpl implements AdminManagementServiceInter {
                         adminServiceInter.getTeacherById();
                         break;
                     case 17:
+                        adminServiceInter.seeAllStudentsInformation();
+                        break;
+                    case 18:
+                        adminServiceInter.seeAllTeachersInformation();
+                        break;
+                    case 19:
                         new BaseManagementServiceImpl().baseManagement();
                         break;
                     default:

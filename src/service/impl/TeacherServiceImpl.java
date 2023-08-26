@@ -30,16 +30,22 @@ public class TeacherServiceImpl implements TeacherServiceInter {
 
     @Override
     public void seeAllTeachers() {
+        String teacherUsername = inputRequiredString("Please enter username: ");
+        String teacherPassword = inputRequiredString("Please enter password: ");
+        boolean teacherFound = false;
+
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             Person person = GlobalData.personDynamicArrays.get(i);
             if (person instanceof Teacher) {
                 Teacher teacher = (Teacher) person;
-                if (teacher != null) {
+                if (teacher != null && teacher.getUsername().equals(teacherUsername) && teacher.getPassword().equals(teacherPassword)) {
+                    teacherFound = true;
                     System.out.println(teacher.toString());
-                } else {
-                    throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
                 }
             }
+        }
+        if (!teacherFound) {
+            throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
         }
     }
 

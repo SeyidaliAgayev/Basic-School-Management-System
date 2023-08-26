@@ -46,9 +46,7 @@ public class PersonDynamicArrayImpl implements PersonDynamicArrays {
     }
 
     @Override
-    public void deleteForId (int... index) { // 1,3
-        // person.length = 4
-        //
+    public void deleteForId (int... index) {
         for (int i = 0; i < index.length; i++) {
             if (index[i] < 0 || index[i] >= persons.length) {
                 System.err.println("Wrong input!!!");
@@ -61,10 +59,8 @@ public class PersonDynamicArrayImpl implements PersonDynamicArrays {
             if (k < index.length) {
                 if (i == index[k]) {
                     k++;
-                    continue;
                 }
             }
-
             newPersons[j++] = persons[i];
         }
         persons = newPersons;
