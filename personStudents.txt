@@ -1,1 +1,2 @@
-Student{id=1, name='ali', surname='agayev', birthdate='2002-10-05', age=20, email='aligmail', username='studentali', studentClass='middle'}
+Student{id=1, name='ali', surname='agayev', birthdate='2002-10-05', age=20, email='aligmail', username='alistudent', studentClass='middle'}
+Student{id=2, name='seyidali', surname='agayev', birthdate='2002-02-18', age=21, email='seyidaligmail', username='seyidalistudent', studentClass='middle'}

@@ -21,10 +21,10 @@ public class DeleteHelper {
     public static void personDeleteForId(String personType) {
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             if (GlobalData.personDynamicArrays.get(i) instanceof Student) {
-                fileService.readInformation("personStudents.txt");
+                fileService.readInformation();
             }
             if (GlobalData.personDynamicArrays.get(i) instanceof Teacher) {
-                fileService.readInformation("personTeachers.txt");
+                fileService.readInformation();
             }
         }
        int deleteCount = inputRequiredInt("How many student/teacher do you want to delete: ");
