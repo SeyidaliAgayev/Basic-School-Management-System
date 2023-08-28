@@ -1,9 +1,12 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 public class Person {
     private String surname;
     private String name;
-    private int age;
+    private LocalDate birthdate;
     private String username;
     private String password;
 
@@ -11,10 +14,10 @@ public class Person {
     public Person() {
     }
 
-    public Person(String surname, String name, int age, String username, String password) {
+    public Person(String surname, String name, LocalDate birthdate, String username, String password) {
         this.surname = surname;
         this.name = name;
-        this.age = age;
+        this.birthdate = birthdate;
         this.username = username;
         this.password = password;
     }
@@ -40,12 +43,12 @@ public class Person {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public LocalDate getBirthdate() {
+        return birthdate;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
     }
 
     public String getUsername() {
@@ -69,7 +72,8 @@ public class Person {
         return "Person{" +
                 "surname='" + surname + '\'' +
                 ", name='" + name + '\'' +
-                ", age=" + age +
+                ", birthdate=" + birthdate +
+                ", age=" + Period.between(birthdate,LocalDate.now()).getYears() +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

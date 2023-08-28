@@ -1,5 +1,8 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 public class Student extends Person{
     private int id;
     private String email;
@@ -8,7 +11,7 @@ public class Student extends Person{
     public Student() {
     }
 
-    public Student(String surname, String name, int age, String username, String password, int id, String email, String studentClass) {
+    public Student(String surname, String name, LocalDate age, String username, String password, int id, String email, String studentClass) {
         super(surname, name, age, username, password);
         this.id = id;
         this.email = email;
@@ -47,7 +50,8 @@ public class Student extends Person{
                 "id=" + id +
                 ", name='" + getName() + '\'' +
                 ", surname='" + getSurname() + '\'' +
-                ", age='" + getAge() + '\'' +
+                ", birthdate='" + getBirthdate() + '\'' +
+                ", age=" + Period.between(getBirthdate(),LocalDate.now()).getYears() +
                 ", email='" + email + '\'' +
                 ", username='" + getUsername() + '\'' +
                 ", studentClass='" + studentClass + '\'' +

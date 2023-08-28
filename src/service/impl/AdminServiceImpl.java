@@ -4,12 +4,14 @@ import data.GlobalData;
 import enums.ExceptionEnum;
 import enums.StatusEnum;
 import exceptions.ServiceExceptions;
+import files.impl.FileServiceImpl;
 import model.Admin;
 import model.Person;
 import model.Student;
 import model.Teacher;
 import service.AdminManagementServiceInter;
 import service.AdminServiceInter;
+import files.impl.FileServiceImpl.*;
 
 import static helper.UpdateHelper.*;
 import static helper.ServiceHelper.*;
@@ -23,6 +25,7 @@ import static util.InputUtil.*;
 public class AdminServiceImpl implements AdminServiceInter {
     private static int failedAttempts = 0;
     AdminManagementServiceInter adminManagementServiceInter = new AdminManagementServiceImpl();
+    FileServiceImpl fileService = new FileServiceImpl();
 
     boolean blockStatus = false;
     @Override
@@ -58,14 +61,20 @@ public class AdminServiceImpl implements AdminServiceInter {
         for (int i = 0; i < addTeacherCount; i++) {
             Teacher newTeachers = fillTeacher(GlobalData.personDynamicArrays.size() + i);
             GlobalData.personDynamicArrays.add(newTeachers);
+            if (newTeachers != null) {
+                fileService.writeInformation("personTeachers.txt", newTeachers);
+            }
         }
     }
     @Override
     public void addStudent() {
         int addStudentCount = inputRequiredInt("How many students will be added: ");
         for (int i = 0; i < addStudentCount; i++) {
-            Student newStudent = fillStudent(GlobalData.personDynamicArrays.size() + i);
-            GlobalData.personDynamicArrays.add(newStudent);
+            Student newStudents = fillStudent(GlobalData.personDynamicArrays.size() + i);
+            GlobalData.personDynamicArrays.add(newStudents);
+            if (newStudents != null) {
+                fileService.writeInformation("personStudents.txt", newStudents);
+            }
         }
     }
 

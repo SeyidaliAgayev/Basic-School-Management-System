@@ -59,6 +59,7 @@ public class PersonDynamicArrayImpl implements PersonDynamicArrays {
             if (k < index.length) {
                 if (i == index[k]) {
                     k++;
+                    continue;
                 }
             }
             newPersons[j++] = persons[i];

@@ -8,16 +8,24 @@ import model.Person;
 import model.Student;
 import model.Teacher;
 
+import java.time.LocalDate;
+
 import static util.InputUtil.*;
 
 public class UpdateHelper {
     public static void personUpdate(String personType) {
+
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            if (GlobalData.personDynamicArrays.get(i) instanceof Student || GlobalData.personDynamicArrays.get(i) instanceof Teacher) {
+                System.out.println(GlobalData.personDynamicArrays.get(i).toString());
+            } else {
+                throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
+            }
+        }
         String personName = inputRequiredString("Which student/teacher do you want to update: ");
         boolean isUpdated = false;
 
-        if (GlobalData.personDynamicArrays == null && GlobalData.personDynamicArrays.size() == 0) {
-            throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
-        }
+
 
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             Person person = GlobalData.personDynamicArrays.get(i);
@@ -39,11 +47,11 @@ public class UpdateHelper {
                                 student.setSurname(newStudentSurname);
                                 isUpdated = true;
                                 break;
-                            case "age":
-                                int newStudentAge = inputRequiredInt("Please enter new student age: ");
-                                student.setAge(newStudentAge);
-                                isUpdated = true;
-                                break;
+//                            case "age":
+//                                LocalDate newStudentAge = inputRequiredInt("Please enter new student age: ");
+//                                student.setBirthdate(newStudentAge);
+//                                isUpdated = true;
+//                                break;
                             case "email":
                                 String newStudentEmail = inputRequiredString("Please enter new student email: ");
                                 student.setEmail(newStudentEmail);
@@ -86,11 +94,11 @@ public class UpdateHelper {
                                 teacher.setSurname(newTeacherSurname);
                                 isUpdated = true;
                                 break;
-                            case "age":
-                                int newTeacherAge = inputRequiredInt("Please enter new teacher age: ");
-                                teacher.setAge(newTeacherAge);
-                                isUpdated = true;
-                                break;
+//                            case "age":
+//                                int newTeacherAge = inputRequiredInt("Please enter new teacher age: ");
+//                                teacher.setBirthdate(newTeacherAge);
+//                                isUpdated = true;
+//                                break;
                             case "salary":
                                 double newTeacherSalary = inputRequiredDouble("Please enter new teacher salary: ");
                                 teacher.setSalary(newTeacherSalary);

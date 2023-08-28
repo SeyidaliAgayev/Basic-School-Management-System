@@ -1,9 +1,11 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Admin extends Employee{
 
 
-    public Admin(String surname, String name, int age, String username, String password, double salary, int id) {
+    public Admin(String surname, String name, LocalDate age, String username, String password, double salary, int id) {
         super(surname, name, age, username, password, salary, id);
     }
 

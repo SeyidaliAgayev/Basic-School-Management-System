@@ -4,46 +4,52 @@ import data.GlobalData;
 import enums.ExceptionEnum;
 import enums.StatusEnum;
 import exceptions.ServiceExceptions;
+import files.impl.FileServiceImpl;
 import model.Person;
 import model.Student;
 import model.Teacher;
+import files.impl.FileServiceImpl.*;
+
+import java.util.ArrayList;
 
 import static util.InputUtil.inputRequiredString;
 import static util.InputUtil.*;
 
 public class DeleteHelper {
+    static FileServiceImpl fileService = new FileServiceImpl();
 
     public static void personDeleteForId(String personType) {
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
-            if (GlobalData.personDynamicArrays.get(i) instanceof Student || GlobalData.personDynamicArrays.get(i) instanceof Teacher) {
-                System.out.println(GlobalData.personDynamicArrays.get(i).toString());
+            if (GlobalData.personDynamicArrays.get(i) instanceof Student) {
+                fileService.readInformation("personStudents.txt");
             }
-
+            if (GlobalData.personDynamicArrays.get(i) instanceof Teacher) {
+                fileService.readInformation("personTeachers.txt");
+            }
         }
-        int[] deleteCount = inputRequiredIntArray("How many student/teacher do you want to delete: ");
-        int[] deleteArray = new int[deleteCount.length];
+       int deleteCount = inputRequiredInt("How many student/teacher do you want to delete: ");
+        int[] deleteArray = new int[deleteCount];
         int deleteIndex = 0;
 
         if (GlobalData.personDynamicArrays.size() == 0 && GlobalData.personDynamicArrays == null) {
             throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
         }
-
+        int deleteId = inputRequiredInt("Enter ID to delete: ");
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             Person person = GlobalData.personDynamicArrays.get(i);
             if (personType.equals("Student") && person instanceof Student) {
                 Student student = (Student) person;
-                for (int j = 0; j < deleteCount.length; j++) {
-                    int deleteId = inputRequiredInt("Enter ID to delete: ");
+                for (int j = 0; j < deleteCount; j++) {
                     if (student.getId() == deleteId) {
                         deleteArray[deleteIndex] = i;
                         deleteIndex++;
                     }
+
                 }
             }
             if (personType.equals("Teacher") && person instanceof Teacher) {
                 Teacher teacher = (Teacher) person;
-                for (int j = 0; j < deleteCount.length; j++) {
-                    int deleteId = inputRequiredInt("Enter ID to delete: ");
+                for (int j = 0; j < deleteCount; j++) {
                     if (teacher.getId() == deleteId) {
                         deleteArray[deleteIndex] = i;
                         deleteIndex++;
@@ -52,7 +58,7 @@ public class DeleteHelper {
             }
         }
         for (int i = deleteArray.length - 1; i >= 0 ; i--) {
-            GlobalData.personDynamicArrays.deleteForId(deleteArray[i]);
+            GlobalData.personDynamicArrays.deleteForId(deleteArray);
         }
 
         System.out.println(StatusEnum.DELETE_SUCCESSFULLY);
