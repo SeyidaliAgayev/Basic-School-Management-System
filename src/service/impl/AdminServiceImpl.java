@@ -58,24 +58,27 @@ public class AdminServiceImpl implements AdminServiceInter {
     @Override
     public void addTeacher() {
         int addTeacherCount = inputRequiredInt("How many teachers will be added: ");
+        Teacher[] teachers = new Teacher[addTeacherCount];
         for (int i = 0; i < addTeacherCount; i++) {
-            Teacher newTeachers = fillTeacher(GlobalData.personDynamicArrays.size() + i);
-            GlobalData.personDynamicArrays.add(newTeachers);
-            if (newTeachers != null) {
-                fileService.writeInformation("personTeachers.txt", newTeachers);
+            teachers[i] = fillTeacher(GlobalData.personDynamicArrays.size() + i);
+            GlobalData.personDynamicArrays.add(teachers[i]);
+            if (teachers[i] != null) {
+                fileService.writeInformation("C:\\Users\\HP\\IdeaProjects\\School-Management-System\\personTeachers.xml", teachers);
             }
         }
     }
     @Override
     public void addStudent() {
         int addStudentCount = inputRequiredInt("How many students will be added: ");
+        Student[] students = new Student[addStudentCount];
         for (int i = 0; i < addStudentCount; i++) {
-            Student newStudents = fillStudent(GlobalData.personDynamicArrays.size() + i);
-            GlobalData.personDynamicArrays.add(newStudents);
-            if (newStudents != null) {
-                fileService.writeInformation("personStudents.txt", newStudents);
+            students[i] = fillStudent(GlobalData.personDynamicArrays.size() + i);
+            GlobalData.personDynamicArrays.add(students[i]);
+            if (students[i] != null) {
+                fileService.writeInformation("C:\\Users\\HP\\IdeaProjects\\School-Management-System\\personStudents.xml", students);
             }
         }
+
     }
 
     @Override

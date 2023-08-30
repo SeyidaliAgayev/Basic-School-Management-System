@@ -1,7 +1,10 @@
 package model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 
+@XmlRootElement
 public class Teacher extends Employee{
     private String teacherClass;
     public Teacher() {
@@ -12,6 +15,7 @@ public class Teacher extends Employee{
         this.teacherClass = teacherClass;
     }
 
+    @XmlElement
     public String getTeacherClass() {
         return teacherClass;
     }

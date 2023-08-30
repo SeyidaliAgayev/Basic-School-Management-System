@@ -1,8 +1,11 @@
 package model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.time.Period;
 
+@XmlRootElement
 public class Student extends Person{
     private int id;
     private String email;
@@ -19,6 +22,7 @@ public class Student extends Person{
     }
 
 
+    @XmlElement
     public int getId() {
         return id;
     }
@@ -27,6 +31,7 @@ public class Student extends Person{
         this.id = id;
     }
 
+    @XmlElement
     public String getEmail() {
         return email;
     }
@@ -36,6 +41,7 @@ public class Student extends Person{
     }
 
 
+    @XmlElement
     public String getStudentClass() {
         return studentClass;
     }

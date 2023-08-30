@@ -10,6 +10,7 @@ import model.Student;
 import model.Teacher;
 import files.impl.FileServiceImpl.*;
 
+import javax.sql.rowset.WebRowSet;
 import java.util.ArrayList;
 
 import static util.InputUtil.inputRequiredString;
@@ -21,12 +22,12 @@ public class DeleteHelper {
     public static void personDeleteForId(String personType) {
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             if (GlobalData.personDynamicArrays.get(i) instanceof Student) {
-                fileService.readInformation();
-            }
-            if (GlobalData.personDynamicArrays.get(i) instanceof Teacher) {
-                fileService.readInformation();
+                fileService.readInformation("personStudents.xml");
+            }else if (GlobalData.personDynamicArrays.get(i) instanceof Teacher) {
+                fileService.readInformation("personTeachers.xml");
             }
         }
+
        int deleteCount = inputRequiredInt("How many student/teacher do you want to delete: ");
         int[] deleteArray = new int[deleteCount];
         int deleteIndex = 0;
@@ -60,7 +61,6 @@ public class DeleteHelper {
         for (int i = deleteArray.length - 1; i >= 0 ; i--) {
             GlobalData.personDynamicArrays.deleteForId(deleteArray);
         }
-
         System.out.println(StatusEnum.DELETE_SUCCESSFULLY);
     }
     public static void personDeleteForName(String personType) {

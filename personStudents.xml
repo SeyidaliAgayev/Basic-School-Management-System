@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persons>
+   <surname>agayev</surname>
+   <name>ali</name>
+   <birthdate>2002-10-05</birthdate>
+   <username>alistudent</username>
+   <password>13579</password>
+</persons><persons xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<persons>
+   <surname>agayev</surname>
+   <name>ali</name>
+   <birthdate>2002-10-05</birthdate>
+   <username>alistudent</username>
+   <password>13579</password>
+</persons><persons>
+   <surname>agayev</surname>
+   <name>seyidali</name>
+   <birthdate>2002-02-18</birthdate>
+   <username>seyidalistudent</username>
+   <password>24680</password>
+</persons>

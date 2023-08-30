@@ -80,7 +80,7 @@ public class AdminManagementServiceImpl implements AdminManagementServiceInter {
             } catch (ServiceExceptions exception) {
                 System.err.println(exception.getMessage());
             } catch (RuntimeException exception) {
-                System.err.println("Wrong Input!");
+                exception.printStackTrace();
             }
 
         }

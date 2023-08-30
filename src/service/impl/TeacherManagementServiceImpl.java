@@ -31,7 +31,7 @@ public class TeacherManagementServiceImpl implements TeacherManagementServiceInt
             } catch (ServiceExceptions exception) {
                 System.err.println(exception.getMessage());
             } catch (RuntimeException exception) {
-                System.err.println("Wrong Input!");
+                exception.printStackTrace();
             }
 
         }

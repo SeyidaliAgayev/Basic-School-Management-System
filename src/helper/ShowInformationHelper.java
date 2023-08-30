@@ -33,9 +33,9 @@ public class ShowInformationHelper {
         }
 
         if (personType.equals("Student")) {
-            fileService.readInformation();
-        } else if (personType.equals("Teacher")) {
-            fileService.readInformation();
+            fileService.readInformation("personStudents.xml");
+        }else if (personType.equals("Teacher")) {
+            fileService.readInformation("personTeachers.xml");
         } else {
             throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
         }

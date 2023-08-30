@@ -3,6 +3,7 @@ package helper;
 
 import enums.ExceptionEnum;
 import exceptions.ServiceExceptions;
+import model.Person;
 import model.Student;
 import model.Teacher;
 import service.AdminManagementServiceInter;
@@ -11,7 +12,6 @@ import service.impl.AdminManagementServiceImpl;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-
 import static util.InputUtil.*;
 
 
@@ -40,7 +40,7 @@ public class ServiceHelper {
         } catch (ServiceExceptions exception) {
             System.err.println(exception.getMessage());
         } catch (RuntimeException exception) {
-            System.err.println("Wrong Input!");
+            exception.getMessage();
         }
         return null;
     }
@@ -66,7 +66,7 @@ public class ServiceHelper {
         } catch (ServiceExceptions exception) {
             System.err.println(exception.getMessage());
         } catch (RuntimeException exception) {
-            System.err.println("Wrong Input!");
+            exception.getMessage();
         }
         return null;
     }

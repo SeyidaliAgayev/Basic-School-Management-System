@@ -55,7 +55,7 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
             } catch (ServiceExceptions exception) {
                 System.err.println(exception.getMessage());
             } catch (RuntimeException exception) {
-                System.err.println("Wrong Input!");
+                exception.printStackTrace();
             }
 
         }
