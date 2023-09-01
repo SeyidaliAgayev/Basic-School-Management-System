@@ -1,12 +1,13 @@
 package model;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 
-@XmlRootElement
-public class Student extends Person{
+
+public class Student extends Person implements Serializable {
     private int id;
     private String email;
     private String studentClass;
@@ -22,7 +23,7 @@ public class Student extends Person{
     }
 
 
-    @XmlElement
+
     public int getId() {
         return id;
     }
@@ -31,7 +32,7 @@ public class Student extends Person{
         this.id = id;
     }
 
-    @XmlElement
+
     public String getEmail() {
         return email;
     }
@@ -41,7 +42,7 @@ public class Student extends Person{
     }
 
 
-    @XmlElement
+
     public String getStudentClass() {
         return studentClass;
     }
@@ -62,5 +63,9 @@ public class Student extends Person{
                 ", username='" + getUsername() + '\'' +
                 ", studentClass='" + studentClass + '\'' +
                 '}';
+    }
+    public String dataHistory() {
+        return "Person with username: " + getUsername() + "logged in to system -> " +
+                "Time: " + LocalDateTime.now();
     }
 }

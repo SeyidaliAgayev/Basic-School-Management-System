@@ -4,8 +4,10 @@ package data.impl;
 import data.PersonDynamicArrays;
 import model.Person;
 
+import java.io.Serializable;
 
-public class PersonDynamicArrayImpl implements PersonDynamicArrays {
+
+public class PersonDynamicArrayImpl implements PersonDynamicArrays, Serializable {
     private Person[] persons = new Person[0];
 
     @Override
@@ -56,11 +58,9 @@ public class PersonDynamicArrayImpl implements PersonDynamicArrays {
         Person[] newPersons = new Person[persons.length - index.length];
 
         for (int i = 0, j = 0, k = 0; i < persons.length; i++) {
-            if (k < index.length) {
-                if (i == index[k]) {
-                    k++;
-                    continue;
-                }
+            if (k < index.length && i == index[k]) {
+                k++;
+                continue;
             }
             newPersons[j++] = persons[i];
         }

@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Employee extends Person{
+public class Employee extends Person implements Serializable {
     private double salary;
     private int id;
 

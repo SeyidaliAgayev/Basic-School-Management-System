@@ -11,6 +11,9 @@ import model.Teacher;
 import files.impl.FileServiceImpl.*;
 
 import javax.sql.rowset.WebRowSet;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import static util.InputUtil.inputRequiredString;
@@ -20,46 +23,52 @@ public class DeleteHelper {
     static FileServiceImpl fileService = new FileServiceImpl();
 
     public static void personDeleteForId(String personType) {
-        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
-            if (GlobalData.personDynamicArrays.get(i) instanceof Student) {
-                fileService.readInformation("personStudents.xml");
-            }else if (GlobalData.personDynamicArrays.get(i) instanceof Teacher) {
-                fileService.readInformation("personTeachers.xml");
-            }
-        }
 
        int deleteCount = inputRequiredInt("How many student/teacher do you want to delete: ");
         int[] deleteArray = new int[deleteCount];
         int deleteIndex = 0;
+        boolean isDeleted = false;
 
         if (GlobalData.personDynamicArrays.size() == 0 && GlobalData.personDynamicArrays == null) {
             throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
         }
-        int deleteId = inputRequiredInt("Enter ID to delete: ");
-        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
-            Person person = GlobalData.personDynamicArrays.get(i);
-            if (personType.equals("Student") && person instanceof Student) {
-                Student student = (Student) person;
-                for (int j = 0; j < deleteCount; j++) {
+
+        for (int i = 0; i < deleteCount; i++) {
+            int deleteId = inputRequiredInt("Enter ID to delete: ");
+
+            for (int j = 0; j < GlobalData.personDynamicArrays.size(); j++) {
+                Person person = GlobalData.personDynamicArrays.get(j);
+                if (personType.equals("Student") && person instanceof Student) {
+                    Student student = (Student) person;
                     if (student.getId() == deleteId) {
-                        deleteArray[deleteIndex] = i;
+                        deleteArray[deleteIndex] = j;
                         deleteIndex++;
                     }
-
                 }
-            }
-            if (personType.equals("Teacher") && person instanceof Teacher) {
-                Teacher teacher = (Teacher) person;
-                for (int j = 0; j < deleteCount; j++) {
+                if (personType.equals("Teacher") && person instanceof Teacher) {
+                    Teacher teacher = (Teacher) person;
                     if (teacher.getId() == deleteId) {
-                        deleteArray[deleteIndex] = i;
+                        deleteArray[deleteIndex] = j;
                         deleteIndex++;
                     }
                 }
             }
         }
-        for (int i = deleteArray.length - 1; i >= 0 ; i--) {
-            GlobalData.personDynamicArrays.deleteForId(deleteArray);
+        for (int i = 0; i < deleteIndex - 1; i++) {
+            for (int j = i + 1; j < deleteIndex; j++) {
+                if (deleteArray[i] < deleteArray[j]) {
+                    int tempArray = deleteArray[i];
+                    deleteArray[i] = deleteArray[j];
+                    deleteArray[j] = tempArray;
+                }
+            }
+        }
+        for (int i = 0; i < deleteIndex; i++) {
+            GlobalData.personDynamicArrays.deleteForId(deleteArray[i]);
+            isDeleted = true;
+        }
+        if (isDeleted) {
+            fileService.writeInformation("personStudents.txt");
         }
         System.out.println(StatusEnum.DELETE_SUCCESSFULLY);
     }

@@ -1,9 +1,11 @@
 package service.impl;
 
 import data.GlobalData;
+import data.PersonDynamicArrays;
 import enums.ExceptionEnum;
 import enums.StatusEnum;
 import exceptions.ServiceExceptions;
+import files.impl.FileServiceImpl;
 import model.Person;
 import model.Student;
 import service.StudentManagementServiceInter;
@@ -14,7 +16,9 @@ import static util.InputUtil.inputRequiredString;
 public class StudentServiceImpl implements StudentServiceInter {
     private static int failedAttempts = 0;
     StudentManagementServiceInter studentManagementServiceInter = new StudentManagementServiceImpl();
+    static FileServiceImpl fileService = new FileServiceImpl();
     boolean blockStatus = false;
+
 
     @Override
     public void seeInfo() {
@@ -36,12 +40,15 @@ public class StudentServiceImpl implements StudentServiceInter {
         }
     }
 
+
+
     @Override
-    public void studentLogIn() {
+    public Person studentLogIn() {
         String studentUsername = inputRequiredString("Please enter username: ");
         boolean studentExists = false;
         boolean passwordIsCorrect = false;
         boolean isLoggedIn = false;
+        Student loggedInStudent = null;
 
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             Person person = GlobalData.personDynamicArrays.get(i);
@@ -58,15 +65,14 @@ public class StudentServiceImpl implements StudentServiceInter {
                             this.studentManagementServiceInter = new StudentManagementServiceImpl();
                             this.studentManagementServiceInter.studentManagement();
                             System.out.println(StatusEnum.LOG_IN_SUCCESSFULLY);
+                            loggedInStudent = student;
                         }
                         failedAttempts++;
-                        throw new ServiceExceptions(ExceptionEnum.INCORRECT_PASSWORD);
-
 
                     }
                     if (!passwordIsCorrect) {
                         blockStatus = true;
-                        break;
+                        throw new ServiceExceptions(ExceptionEnum.INCORRECT_PASSWORD);
                     }
                 }
             }
@@ -86,5 +92,7 @@ public class StudentServiceImpl implements StudentServiceInter {
                 new StudentManagementServiceImpl().studentManagement();
             }
         }
+        return loggedInStudent;
     }
+
 }

@@ -1,11 +1,12 @@
 package model;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.time.LocalDate;
 
-@XmlRootElement
-public class Teacher extends Employee{
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+
+public class Teacher extends Employee implements Serializable {
     private String teacherClass;
     public Teacher() {
     }
@@ -15,7 +16,7 @@ public class Teacher extends Employee{
         this.teacherClass = teacherClass;
     }
 
-    @XmlElement
+
     public String getTeacherClass() {
         return teacherClass;
     }
@@ -35,6 +36,10 @@ public class Teacher extends Employee{
                 "teacherSalary='" + getSalary() + '\'' +
                 "teacherClass='" + teacherClass + '\'' +
                 '}';
+    }
+    public String dataHistory() {
+        return "Person with username: " + getUsername() + "logged in to system -> " +
+                "Time: " + LocalDateTime.now();
     }
 }
 

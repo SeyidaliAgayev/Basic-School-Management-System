@@ -1,26 +1,21 @@
 package model;
 
-import org.eclipse.persistence.oxm.annotations.XmlPath;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class Person{
-    @XmlPath("surname/text()")
+
+public class Person implements Serializable{
+
     private String surname;
-    @XmlPath("name/text()")
+
     private String name;
-    @XmlPath("birthdate/text()")
+
     private LocalDate birthdate;
-    @XmlPath("username/text()")
+
     private String username;
-    @XmlPath("password/text()")
+
     private String password;
 
 
@@ -40,7 +35,7 @@ public class Person{
         this.password = password;
     }
 
-    @XmlElement
+
     public String getSurname() {
         return surname;
     }
@@ -49,7 +44,7 @@ public class Person{
         this.surname = surname;
     }
 
-    @XmlElement
+
     public String getName() {
         return name;
     }
@@ -58,7 +53,7 @@ public class Person{
         this.name = name;
     }
 
-    @XmlElement
+
     public LocalDate getBirthdate() {
         return birthdate;
     }
@@ -67,7 +62,7 @@ public class Person{
         this.birthdate = birthdate;
     }
 
-    @XmlElement
+
     public String getUsername() {
         return username;
     }
@@ -76,7 +71,7 @@ public class Person{
         this.username = username;
     }
 
-    @XmlElement
+
     public String getPassword() {
         return password;
     }
@@ -96,5 +91,9 @@ public class Person{
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+    public String dataHistory() {
+        return "Person with username: " + username + "logged in to system -> " +
+                "Time: " + LocalDateTime.now();
     }
 }
