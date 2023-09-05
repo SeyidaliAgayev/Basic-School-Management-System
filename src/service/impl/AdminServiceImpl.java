@@ -4,15 +4,12 @@ import data.GlobalData;
 import enums.ExceptionEnum;
 import enums.StatusEnum;
 import exceptions.ServiceExceptions;
-import files.FileServiceInter;
 import files.impl.FileServiceImpl;
 import model.Admin;
 import model.Person;
 import model.Student;
 import model.Teacher;
-import service.AdminManagementServiceInter;
 import service.AdminServiceInter;
-import files.impl.FileServiceImpl.*;
 
 import static helper.UpdateHelper.*;
 import static helper.ServiceHelper.*;
@@ -24,15 +21,19 @@ import static helper.ShowInformationHelper.*;
 import static util.InputUtil.*;
 
 public class AdminServiceImpl implements AdminServiceInter {
-    private static int failedAttempts = 0;
-    AdminManagementServiceInter adminManagementServiceInter = new AdminManagementServiceImpl();
-    static FileServiceInter fileService = new FileServiceImpl();
-    static {
-        fileService.readInformation("personStudents.txt");
-        fileService.readInformation("personTeachers.txt");
+    private static AdminServiceImpl instance = null;
+    private AdminServiceImpl() {
+
     }
 
-    boolean blockStatus = false;
+    public static AdminServiceImpl getInstance() {
+        return instance == null ? new AdminServiceImpl() : instance;
+    }
+
+    private static int failedAttempts = 0;
+
+
+    boolean isBlocked = false;
     @Override
     public void updateStudent() {
         personUpdate("Student");
@@ -67,7 +68,8 @@ public class AdminServiceImpl implements AdminServiceInter {
             Teacher newTeachers  = fillTeacher(GlobalData.personDynamicArrays.size() + i);
             GlobalData.personDynamicArrays.add(newTeachers);
             if (newTeachers != null) {
-                fileService.writeInformation("personTeachers.txt");
+                FileServiceImpl.getInstance().writeInformation("persons.txt");
+                FileServiceImpl.getInstance().operationHistory(GlobalData.personDynamicArrays.get(i).getUsername(), "Added New Teachers");
             }
         }
     }
@@ -78,19 +80,11 @@ public class AdminServiceImpl implements AdminServiceInter {
             Student newStudents = fillStudent(GlobalData.personDynamicArrays.size() + i);
             GlobalData.personDynamicArrays.add(newStudents);
             if (newStudents != null) {
-                fileService.writeInformation("personStudents.txt");
+                FileServiceImpl.getInstance().writeInformation("persons.txt");
+                FileServiceImpl.getInstance().operationHistory(GlobalData.personDynamicArrays.get(i).getUsername(), "Added New Students");
             }
         }
 
-    }
-
-    @Override
-    public void deleteTeacherForName() {
-        personDeleteForName("Teacher");
-    }
-    @Override
-    public void deleteStudentForName() {
-        personDeleteForName("Student");
     }
 
     @Override
@@ -105,15 +99,56 @@ public class AdminServiceImpl implements AdminServiceInter {
 
     @Override
     public void blockTeacher() {
-        blockStatus = true;
+        int blockTeacherId = inputRequiredInt("Please enter teacher's ID to block: ");
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
+            if (person instanceof Teacher) {
+                Teacher teacher = (Teacher) person;
+                if (teacher.getId() == blockTeacherId) {
+                    teacher.blockTeacher();
+                    System.out.println("Teacher with [" + teacher.getId() + "] ID has been blocked!");
+                }
+            }
+        }
     }
     @Override
     public void openBlock() {
-        blockStatus = false;
+        int blockId = inputRequiredInt("Please enter person's ID to unblock: ");
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
+            if (person instanceof Teacher) {
+                Teacher teacher = (Teacher) person;
+                if (teacher.getId() == blockId) {
+                    teacher.unblockTeacher();
+                    System.out.println("Teacher with [" + teacher.getId() + "] ID has been unblocked!");
+                    FileServiceImpl.getInstance().operationHistory(teacher.getUsername(), "Has been unblocked!");
+                    break;
+                }
+            }
+            if (person instanceof Student) {
+                Student student = (Student) person;
+                if (student.getId() == blockId) {
+                    student.unBlockStudent();
+                    System.out.println("Student with [" + student.getId() + "] ID has been unblocked!");
+                    FileServiceImpl.getInstance().operationHistory(student.getUsername(), "Has been unblocked!");
+                    break;
+                }
+            }
+        }
     }
     @Override
     public void blockStudent() {
-        blockStatus = true;
+        int blockStudentId = inputRequiredInt("Please enter student's ID to block: ");
+        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+            Person person = GlobalData.personDynamicArrays.get(i);
+            if (person instanceof Student) {
+                Student student = (Student) person;
+                if (student.getId() == blockStudentId) {
+                    student.blockStudent();
+                    System.out.println("Student with [" + student.getId() + "] ID has been blocked!");
+                }
+            }
+        }
     }
     @Override
     public void getStudentById() {
@@ -135,10 +170,7 @@ public class AdminServiceImpl implements AdminServiceInter {
         boolean isLoggedIn = false;
 
         {
-            Admin admin = new Admin("Ali", "Ali12345");
-            GlobalData.personDynamicArrays.add(admin);
-            fileService.writeInformation("personAdmins.txt");
-            fileService.operationHistory(adminUsername);
+            FileServiceImpl.getInstance().operationHistory(adminUsername, "Logged in");
         }
 
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
@@ -153,36 +185,34 @@ public class AdminServiceImpl implements AdminServiceInter {
                             passwordIsCorrect = true;
                             isLoggedIn = true;
                             failedAttempts = 0;
-                            this.adminManagementServiceInter = new AdminManagementServiceImpl();
-                            this.adminManagementServiceInter.adminManagement();
+                            AdminManagementServiceImpl.getInstance().adminManagement();
                             System.out.println(StatusEnum.LOG_IN_SUCCESSFULLY);
-
                             break;
                         }
                         failedAttempts++;
                         System.err.println("Password is not correct!");
                     }
                     if (!passwordIsCorrect) {
-                        blockStatus = true;
+                        isBlocked = true;
                         break;
                     }
                 }
             }
         }
         if (!adminExists) {
-            new BaseManagementServiceImpl().baseManagement();
+            BaseManagementServiceImpl.getInstance().baseManagement();
             throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
         }
-        if (!isLoggedIn && blockStatus) {
+        if (!isLoggedIn && isBlocked) {
             failedAttempts = 0;
-            new BaseManagementServiceImpl().baseManagement();
+            BaseManagementServiceImpl.getInstance().baseManagement();
             throw new ServiceExceptions(ExceptionEnum.LOG_IN_DENIED);
 
         } else if (!isLoggedIn) {
             System.err.println(StatusEnum.LOG_IN_UNSUCCESSFULLY);
             failedAttempts = 0;
             if (failedAttempts == 3) {
-                new BaseManagementServiceImpl().baseManagement();
+                BaseManagementServiceImpl.getInstance().baseManagement();
                 throw new ServiceExceptions(ExceptionEnum.INCORRECT_PASSWORD);
             }
         }

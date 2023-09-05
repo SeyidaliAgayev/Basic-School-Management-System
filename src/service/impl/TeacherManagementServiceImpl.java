@@ -4,24 +4,35 @@ import enums.ExceptionEnum;
 import exceptions.ServiceExceptions;
 import service.TeacherManagementServiceInter;
 import service.TeacherServiceInter;
+
+import java.util.InputMismatchException;
+
 import static util.MenuUtil.*;
 
 public class TeacherManagementServiceImpl implements TeacherManagementServiceInter {
+    private static TeacherManagementServiceImpl instance = null;
+    private TeacherManagementServiceImpl() {
+
+    }
+
+    public static TeacherManagementServiceImpl getInstance() {
+        return instance == null ? new TeacherManagementServiceImpl() : instance;
+    }
+
     @Override
     public void teacherManagement() {
-        TeacherServiceInter teacherServiceInter = new TeacherServiceImpl();
         while (true) {
             try {
                 int option = teacherMenu();
                 switch (option) {
                     case 1:
-                        teacherServiceInter.teacherLogIn();
+                        TeacherServiceImpl.getInstance().teacherLogIn();
                         break;
                     case 2:
-                        teacherServiceInter.seeAllClasses();
+                        TeacherServiceImpl.getInstance().seeAllClasses();
                         break;
                     case 3:
-                        teacherServiceInter.seeAllTeachers();
+                        TeacherServiceImpl.getInstance().seeAllTeachers();
                         break;
                     case 0:
                         System.exit(-1);
@@ -30,8 +41,8 @@ public class TeacherManagementServiceImpl implements TeacherManagementServiceInt
                 }
             } catch (ServiceExceptions exception) {
                 System.err.println(exception.getMessage());
-            } catch (RuntimeException exception) {
-                exception.printStackTrace();
+            } catch (InputMismatchException exception) {
+                System.err.println("Wrong Input");
             }
 
         }

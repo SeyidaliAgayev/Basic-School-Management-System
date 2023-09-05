@@ -4,6 +4,8 @@ import data.GlobalData;
 import enums.ExceptionEnum;
 import enums.StatusEnum;
 import exceptions.ServiceExceptions;
+import files.FileServiceInter;
+import files.impl.FileServiceImpl;
 import model.Person;
 import model.Student;
 import model.Teacher;
@@ -41,11 +43,13 @@ public class UpdateHelper {
                                 String newStudentName = inputRequiredString("Please enter new student name: ");
                                 student.setName(newStudentName);
                                 isUpdated = true;
+                                FileServiceImpl.getInstance().operationHistory(student.getUsername(), "Updated in");
                                 break;
                             case "surname":
                                 String newStudentSurname = inputRequiredString("Please enter new student surname: ");
                                 student.setSurname(newStudentSurname);
                                 isUpdated = true;
+                                FileServiceImpl.getInstance().operationHistory(student.getUsername(), "Updated in");
                                 break;
 //                            case "age":
 //                                LocalDate newStudentAge = inputRequiredInt("Please enter new student age: ");
@@ -56,16 +60,19 @@ public class UpdateHelper {
                                 String newStudentEmail = inputRequiredString("Please enter new student email: ");
                                 student.setEmail(newStudentEmail);
                                 isUpdated = true;
+                                FileServiceImpl.getInstance().operationHistory(student.getUsername(), "Updated in");
                                 break;
                             case "password":
                                 String newStudentPassword = inputRequiredString("Please enter the new student password: ");
                                 student.setPassword(newStudentPassword);
                                 isUpdated = true;
+                                FileServiceImpl.getInstance().operationHistory(student.getUsername(), "Updated in");
                                 break;
                             case "username":
                                 String newStudentUsername = inputRequiredString("Please enter new student username: ");
                                 student.setUsername(newStudentUsername);
                                 isUpdated = true;
+                                FileServiceImpl.getInstance().operationHistory(student.getUsername(), "Updated in");
                                 break;
                             default:
                                 throw new ServiceExceptions(ExceptionEnum.INVALID_OPTION);
@@ -88,11 +95,13 @@ public class UpdateHelper {
                                 String newTeacherName = inputRequiredString("Please enter new teacher name: ");
                                 teacher.setName(newTeacherName);
                                 isUpdated = true;
+                                FileServiceImpl.getInstance().operationHistory(teacher.getUsername(), "Updated in");
                                 break;
                             case "surname":
                                 String newTeacherSurname = inputRequiredString("Please enter new teacher surname: ");
                                 teacher.setSurname(newTeacherSurname);
                                 isUpdated = true;
+                                FileServiceImpl.getInstance().operationHistory(teacher.getUsername(), "Updated in");
                                 break;
 //                            case "age":
 //                                int newTeacherAge = inputRequiredInt("Please enter new teacher age: ");
@@ -103,6 +112,7 @@ public class UpdateHelper {
                                 double newTeacherSalary = inputRequiredDouble("Please enter new teacher salary: ");
                                 teacher.setSalary(newTeacherSalary);
                                 isUpdated = true;
+                                FileServiceImpl.getInstance().operationHistory(teacher.getUsername(), "Updated in");
                                 break;
                             default:
                                 throw new ServiceExceptions(ExceptionEnum.INVALID_OPTION);

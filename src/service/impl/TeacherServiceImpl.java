@@ -4,17 +4,25 @@ import data.GlobalData;
 import enums.ExceptionEnum;
 import enums.StatusEnum;
 import exceptions.ServiceExceptions;
+import files.impl.FileServiceImpl;
 import model.Person;
 import model.Teacher;
 import service.TeacherManagementServiceInter;
 import service.TeacherServiceInter;
 
+import java.io.File;
+
 import static util.InputUtil.inputRequiredString;
 
 public class TeacherServiceImpl implements TeacherServiceInter {
-    private static int failedAttempts = 0;
-    boolean blockStatus = false;
-    TeacherManagementServiceInter teacherManagementServiceInter = new TeacherManagementServiceImpl();
+    private static TeacherServiceImpl instance = null;
+    private TeacherServiceImpl() {
+
+    }
+
+    public static TeacherServiceImpl getInstance() {
+        return instance == null ? new TeacherServiceImpl() : instance;
+    }
 
     @Override
     public void seeAllClasses() {
@@ -50,55 +58,46 @@ public class TeacherServiceImpl implements TeacherServiceInter {
     }
 
     @Override
-    public void teacherLogIn() {
+    public Person teacherLogIn() {
         if (GlobalData.personDynamicArrays.size() == 0 || GlobalData.personDynamicArrays == null) {
             throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
         }
-        String teacherUsername = inputRequiredString("Please enter username: ");
-        boolean teacherExists = false;
-        boolean passwordIsCorrect = false;
+        String username = inputRequiredString("Please insert username: ");
+        boolean isFound = false;
         boolean isLoggedIn = false;
-
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             Person person = GlobalData.personDynamicArrays.get(i);
             if (person instanceof Teacher) {
                 Teacher teacher = (Teacher) person;
-                if (teacher.getUsername().equals(teacherUsername)) {
-                    teacherExists = true;
-                    while (failedAttempts < 3) {
-                        String password = inputRequiredString("Please enter password: ");
-                        if (teacher.getPassword().equals(password)) {
-                            passwordIsCorrect = true;
-                            isLoggedIn = true;
-                            failedAttempts = 0;
-                            this.teacherManagementServiceInter = new TeacherManagementServiceImpl();
-                            this.teacherManagementServiceInter.teacherManagement();
-                            System.out.println(StatusEnum.LOG_IN_SUCCESSFULLY);
+                if (teacher.getUsername().equals(username)) {
+                    isFound = true;
+                    if (teacher.isBlocked() == false) {
+                        for (int j = 0; j < 3; j++) {
+                            String password = inputRequiredString("Please insert password: ");
+                            if (teacher.getPassword().equals(password)) {
+                                isLoggedIn = true;
+                                FileServiceImpl.getInstance().operationHistory(teacher.getUsername(), "Logged in");
+                                TeacherManagementServiceImpl.getInstance().teacherManagement();
+                                return teacher;
+                            } else {
+                                System.err.println("Password is not correct!");
+                            }
+                            if (j == 2) {
+                                teacher.blockTeacher();
+                                FileServiceImpl.getInstance().operationHistory(teacher.getUsername(), "Has been blocked!");
+                                BaseManagementServiceImpl.getInstance().baseManagement();
+                            }
                         }
-                        failedAttempts++;
-                        throw new ServiceExceptions(ExceptionEnum.INCORRECT_PASSWORD);
                     }
-                    if (!passwordIsCorrect) {
-                        blockStatus = true;
-                        break;
+                    else {
+                        System.err.println("You have been blocked please contact with admin!");
                     }
                 }
             }
         }
-        if (!teacherExists) {
-            new TeacherManagementServiceImpl().teacherManagement();
-            throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
-        }
-        if (!isLoggedIn && blockStatus) {
-            failedAttempts = 0;
-            new TeacherManagementServiceImpl().teacherManagement();
+        if (!isLoggedIn) {
             throw new ServiceExceptions(ExceptionEnum.LOG_IN_DENIED);
-        } else if (!isLoggedIn) {
-            System.out.println(StatusEnum.LOG_IN_UNSUCCESSFULLY);
-            failedAttempts = 0;
-            if (failedAttempts == 3) {
-                new TeacherManagementServiceImpl().teacherManagement();
-            }
         }
+        return null;
     }
 }

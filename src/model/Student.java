@@ -1,6 +1,7 @@
 package model;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ public class Student extends Person implements Serializable {
     private int id;
     private String email;
     private String studentClass;
+    private boolean isBlocked = false;
 
     public Student() {
     }
@@ -33,6 +35,14 @@ public class Student extends Person implements Serializable {
     }
 
 
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -51,6 +61,7 @@ public class Student extends Person implements Serializable {
         this.studentClass = studentClass;
     }
 
+
     @Override
     public String toString() {
         return "Student{" +
@@ -67,5 +78,13 @@ public class Student extends Person implements Serializable {
     public String dataHistory() {
         return "Person with username: " + getUsername() + "logged in to system -> " +
                 "Time: " + LocalDateTime.now();
+    }
+    public void blockStudent() {
+        this.isBlocked = true;
+        System.out.println("Student: " + this.id + " " + this.getUsername() + " " + "has been blocked!");
+    }
+    public void unBlockStudent() {
+        this.isBlocked = false;
+        System.out.println("Student: " + this.id + " " + this.getUsername() + " " + "has been unblocked!");
     }
 }

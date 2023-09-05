@@ -12,6 +12,8 @@ import service.impl.AdminManagementServiceImpl;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
+
 import static util.InputUtil.*;
 
 
@@ -19,8 +21,9 @@ public class ServiceHelper {
     private static int studentId = 0;
     private static int teacherId = 0;
     private static int failedAttempts = 0;
-    AdminManagementServiceInter adminManagementServiceInter = new AdminManagementServiceImpl();
     public static Student fillStudent(int i) {
+        Random random = new Random();
+        int uniqueStudentId = random.nextInt(501);
         try {
             System.out.println("------------------\n");
             System.out.println("Student\n");
@@ -36,7 +39,7 @@ public class ServiceHelper {
             String password = inputRequiredString("Password: ");
             String username = inputRequiredString("Username: ");
 
-            return new Student(surname,name,studentBirthDate,username,password,++studentId ,email,studentClass);
+            return new Student(surname,name,studentBirthDate,username,password,uniqueStudentId,email,studentClass);
         } catch (ServiceExceptions exception) {
             System.err.println(exception.getMessage());
         } catch (RuntimeException exception) {
@@ -45,6 +48,8 @@ public class ServiceHelper {
         return null;
     }
     public static Teacher fillTeacher(int i) {
+        Random random = new Random();
+        int uniqueTeacherId = random.nextInt(501) + 498;
         try {
             System.out.println("------------------\n");
             System.out.println("Teacher\n");
@@ -62,7 +67,7 @@ public class ServiceHelper {
 
             double salary = inputRequiredDouble("Salary: ");
 
-            return new Teacher(surname,name,teacherBirthDate,username,password,salary,++teacherId,teacherClass);
+            return new Teacher(surname,name,teacherBirthDate,username,password,salary,uniqueTeacherId,teacherClass);
         } catch (ServiceExceptions exception) {
             System.err.println(exception.getMessage());
         } catch (RuntimeException exception) {

@@ -4,12 +4,20 @@ import enums.ExceptionEnum;
 import exceptions.ServiceExceptions;
 import service.*;
 
+import java.util.InputMismatchException;
+
 import static util.MenuUtil.*;
 
 public class BaseManagementServiceImpl implements BaseManagementServiceInter {
-    AdminServiceInter adminServiceInter = new AdminServiceImpl();
-    StudentServiceInter studentServiceInter = new StudentServiceImpl();
-    TeacherServiceInter teacherServiceInter = new TeacherServiceImpl();
+    private static BaseManagementServiceImpl instance = null;
+    private BaseManagementServiceImpl() {
+
+    }
+
+    public static BaseManagementServiceImpl getInstance() {
+        return instance == null ? new BaseManagementServiceImpl() : instance;
+    }
+
     boolean isLoggedIn = false;
     @Override
     public void baseManagement() {
@@ -18,31 +26,28 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
                 int option = entryMenu();
                 switch (option) {
                     case 1:
-                        studentServiceInter.studentLogIn();
+                        StudentServiceImpl.getInstance().studentLogIn();
                         isLoggedIn = true;
                         if (isLoggedIn) {
-                            StudentManagementServiceInter studentManagementServiceInter = new StudentManagementServiceImpl();
-                            studentManagementServiceInter.studentManagement();
+                            StudentManagementServiceImpl.getInstance().studentManagement();
                         } else {
                             System.err.println("Log In Unsuccessfully!");
                         }
                         break;
                     case 2:
-                        teacherServiceInter.teacherLogIn();
+                        TeacherServiceImpl.getInstance().teacherLogIn();
                         isLoggedIn = true;
                         if (isLoggedIn) {
-                            TeacherManagementServiceInter teacherManagementServiceInter = new TeacherManagementServiceImpl();
-                            teacherManagementServiceInter.teacherManagement();
+                            TeacherManagementServiceImpl.getInstance().teacherManagement();
                         } else {
                             System.err.println("Log In Unsuccessfully!");
                         }
                         break;
                     case 3:
-                        adminServiceInter.adminLogIn();
+                        AdminServiceImpl.getInstance().adminLogIn();
                         isLoggedIn = true;
                         if (isLoggedIn) {
-                            AdminManagementServiceInter adminManagementServiceInter = new AdminManagementServiceImpl();
-                            adminManagementServiceInter.adminManagement();
+                            AdminManagementServiceImpl.getInstance().adminManagement();
                         } else {
                             System.err.println("Log In Unsuccessfully!");
                         }
@@ -54,8 +59,8 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
                 }
             } catch (ServiceExceptions exception) {
                 System.err.println(exception.getMessage());
-            } catch (RuntimeException exception) {
-                exception.printStackTrace();
+            } catch (InputMismatchException exception) {
+                System.err.println("Wrong Input!");
             }
 
         }

@@ -2,85 +2,94 @@ package service.impl;
 
 import enums.ExceptionEnum;
 import exceptions.ServiceExceptions;
+import files.FileServiceInter;
+import files.impl.FileServiceImpl;
 import service.AdminManagementServiceInter;
 import service.AdminServiceInter;
+
+import java.util.InputMismatchException;
 
 import static util.MenuUtil.*;
 
 
 public class AdminManagementServiceImpl implements AdminManagementServiceInter {
+    private static AdminManagementServiceImpl instance = null;
+    private AdminManagementServiceImpl() {
+
+    }
+
+    public static AdminManagementServiceImpl getInstance() {
+        return instance == null ? new AdminManagementServiceImpl() : instance;
+    }
+
     @Override
     public void adminManagement() {
-
-        AdminServiceInter adminServiceInter = new AdminServiceImpl();
         while (true) {
             try {
                 int option = adminMenu();
                 switch (option) {
                     case 1:
-                        adminServiceInter.addStudent();
+                        AdminServiceImpl.getInstance().addStudent();
                         break;
                     case 2:
-                        adminServiceInter.addTeacher();
+                        AdminServiceImpl.getInstance().addTeacher();
                         break;
                     case 3:
-                        adminServiceInter.deleteStudentForName();
+                        AdminServiceImpl.getInstance().deleteStudentForId();
                         break;
                     case 4:
-                        adminServiceInter.deleteTeacherForName();
+                        AdminServiceImpl.getInstance().deleteTeacherForId();
                         break;
                     case 5:
-                        adminServiceInter.deleteStudentForId();
+                        AdminServiceImpl.getInstance().updateStudent();
                         break;
                     case 6:
-                        adminServiceInter.deleteTeacherForId();
+                        AdminServiceImpl.getInstance().updateTeacher();
                         break;
                     case 7:
-                        adminServiceInter.updateStudent();
+                        AdminServiceImpl.getInstance().blockStudent();
                         break;
                     case 8:
-                        adminServiceInter.updateTeacher();
+                        AdminServiceImpl.getInstance().blockTeacher();
                         break;
                     case 9:
-                        adminServiceInter.blockStudent();
+                        AdminServiceImpl.getInstance().openBlock();
                         break;
                     case 10:
-                        adminServiceInter.blockTeacher();
+                        AdminServiceImpl.getInstance().searchForStudent();
                         break;
                     case 11:
-                        adminServiceInter.openBlock();
+                        AdminServiceImpl.getInstance().searchForTeacher();
                         break;
                     case 12:
-                        adminServiceInter.searchForStudent();
+                        AdminServiceImpl.getInstance().adminLogIn();
                         break;
                     case 13:
-                        adminServiceInter.searchForTeacher();
+                        AdminServiceImpl.getInstance().getStudentById();
                         break;
                     case 14:
-                        adminServiceInter.adminLogIn();
+                        AdminServiceImpl.getInstance().getTeacherById();
                         break;
                     case 15:
-                        adminServiceInter.getStudentById();
+                        AdminServiceImpl.getInstance().seeAllStudentsInformation();
                         break;
                     case 16:
-                        adminServiceInter.getTeacherById();
+                        AdminServiceImpl.getInstance().seeAllTeachersInformation();
                         break;
                     case 17:
-                        adminServiceInter.seeAllStudentsInformation();
+                        BaseManagementServiceImpl.getInstance().baseManagement();
                         break;
-                    case 18:
-                        adminServiceInter.seeAllTeachersInformation();
-                        break;
-                    case 19:
-                        new BaseManagementServiceImpl().baseManagement();
+                    case 0:
+                        FileServiceImpl.getInstance().writeInformation("persons.txt");
+                        System.exit(-1);
                         break;
                     default:
                         throw new ServiceExceptions(ExceptionEnum.INVALID_OPTION);
                 }
             } catch (ServiceExceptions exception) {
                 System.err.println(exception.getMessage());
-            } catch (RuntimeException exception) {
-                exception.printStackTrace();
+            } catch (InputMismatchException exception) {
+                System.err.println("Wrong Input!");
             }
 
         }

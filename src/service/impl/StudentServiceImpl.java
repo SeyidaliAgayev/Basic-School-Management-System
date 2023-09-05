@@ -1,23 +1,31 @@
 package service.impl;
 
 import data.GlobalData;
-import data.PersonDynamicArrays;
 import enums.ExceptionEnum;
-import enums.StatusEnum;
 import exceptions.ServiceExceptions;
 import files.impl.FileServiceImpl;
 import model.Person;
 import model.Student;
-import service.StudentManagementServiceInter;
 import service.StudentServiceInter;
+
+import java.io.File;
 
 import static util.InputUtil.inputRequiredString;
 
 public class StudentServiceImpl implements StudentServiceInter {
+    private static StudentServiceImpl instance = null;
+    private StudentServiceImpl() {
+
+    }
+
+    public static StudentServiceImpl getInstance() {
+        return instance == null ? new StudentServiceImpl() : instance;
+    }
+
     private static int failedAttempts = 0;
-    StudentManagementServiceInter studentManagementServiceInter = new StudentManagementServiceImpl();
-    static FileServiceImpl fileService = new FileServiceImpl();
-    boolean blockStatus = false;
+
+    boolean isFound = false;
+
 
 
     @Override
@@ -39,60 +47,94 @@ public class StudentServiceImpl implements StudentServiceInter {
             throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
         }
     }
-
-
-
     @Override
     public Person studentLogIn() {
         String studentUsername = inputRequiredString("Please enter username: ");
-        boolean studentExists = false;
-        boolean passwordIsCorrect = false;
         boolean isLoggedIn = false;
-        Student loggedInStudent = null;
+        boolean isFound = false; // Initialize isFound
 
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
             Person person = GlobalData.personDynamicArrays.get(i);
             if (person instanceof Student) {
                 Student student = (Student) person;
                 if (student.getUsername().equals(studentUsername)) {
-                    studentExists = true;
-                    while (failedAttempts < 3) {
-                        String password = inputRequiredString("Please enter password: ");
-                        if (student.getPassword().equals(password)) {
-                            passwordIsCorrect = true;
-                            isLoggedIn = true;
-                            failedAttempts = 0;
-                            this.studentManagementServiceInter = new StudentManagementServiceImpl();
-                            this.studentManagementServiceInter.studentManagement();
-                            System.out.println(StatusEnum.LOG_IN_SUCCESSFULLY);
-                            loggedInStudent = student;
+                    isFound = true;
+                    if (!student.isBlocked()) {
+                        for (int j = 0; j < 3; j++) {
+                            String studentPassword = inputRequiredString("Please enter password: ");
+                            if (studentPassword.equals(student.getPassword())) {
+                                isLoggedIn = true;
+                                FileServiceImpl.getInstance().operationHistory(studentUsername, "Logged in");
+                                StudentManagementServiceImpl.getInstance().studentManagement();
+                                return student;
+                            } else {
+                                System.err.println("Password is not correct!");
+                            }
+                            if (j == 2) {
+                                student.blockStudent();
+                                FileServiceImpl.getInstance().operationHistory(studentUsername, "Has been blocked!");
+                                BaseManagementServiceImpl.getInstance().baseManagement();
+                            }
                         }
-                        failedAttempts++;
-
-                    }
-                    if (!passwordIsCorrect) {
-                        blockStatus = true;
-                        throw new ServiceExceptions(ExceptionEnum.INCORRECT_PASSWORD);
+                    } else {
+                        System.err.println("You have been blocked please contact with admin");
                     }
                 }
             }
         }
-        if (!studentExists) {
-            new StudentManagementServiceImpl().studentManagement();
+
+        // Move the exception handling outside of the loop
+        if (!isLoggedIn) {
+            throw new ServiceExceptions(ExceptionEnum.LOG_IN_DENIED);
+        }
+
+        if (!isFound) {
             throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
         }
-        if (!isLoggedIn && blockStatus) {
-            failedAttempts = 0;
-            new StudentManagementServiceImpl().studentManagement();
-            throw new ServiceExceptions(ExceptionEnum.LOG_IN_DENIED);
-        } else if (!isLoggedIn) {
-            System.err.println(StatusEnum.LOG_IN_UNSUCCESSFULLY);
-            failedAttempts = 0;
-            if (failedAttempts == 3) {
-                new StudentManagementServiceImpl().studentManagement();
-            }
-        }
-        return loggedInStudent;
+        return null;
     }
 
 }
+//@Override
+//    public Person studentLogIn() {
+//        String studentUsername = inputRequiredString("Please enter username: ");
+//        boolean isLoggedIn = false;
+//
+//        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
+//            Person person = GlobalData.personDynamicArrays.get(i);
+//            if (person instanceof Student) {
+//                Student student = (Student) person;
+//                if (student.getUsername().equals(studentUsername)) {
+//                    isFound = true;
+//                    if (student.isBlocked() == false) {
+//                        for(int j = 0; j < 3; j++) {
+//                            String studentPassword = inputRequiredString("Please enter password: ");
+//                            if (studentPassword.equals(student.getPassword())) {
+//                                isLoggedIn = true;
+//                                FileServiceImpl.getInstance().operationHistory(studentUsername, "Logged in");
+//                                StudentManagementServiceImpl.getInstance().studentManagement();
+//                                return student;
+//                            } else {
+//                                System.err.println("Password is not correct!");
+//                            }
+//                            if (j == 2) {
+//                                student.blockStudent();
+//                                FileServiceImpl.getInstance().operationHistory(studentUsername, "Has been blocked!");
+//                                BaseManagementServiceImpl.getInstance().baseManagement();
+//                            }
+//                        }
+//                    }
+//                    else {
+//                        System.err.println("You have been blocked please contact with admin");
+//                    }
+//                }
+//                if (!isLoggedIn) {
+//                    throw new ServiceExceptions(ExceptionEnum.LOG_IN_DENIED);
+//                }
+//            }
+//        }
+//        if (!isFound) {
+//            throw new ServiceExceptions(ExceptionEnum.PERSON_NOT_FOUND);
+//        }
+//        return null;
+//    }

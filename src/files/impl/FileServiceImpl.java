@@ -10,6 +10,14 @@ import java.time.LocalDateTime;
 
 
 public class FileServiceImpl implements FileServiceInter {
+    private static FileServiceImpl instance = null;
+    private FileServiceImpl() {
+    }
+
+    public static FileServiceImpl getInstance() {
+        return instance == null ? new FileServiceImpl() : instance;
+    }
+
     @Override
     public void writeInformation(String filePath) {
        try {
@@ -38,7 +46,7 @@ public class FileServiceImpl implements FileServiceInter {
         }
     }
 
-    public Person operationHistory(String username) {
+    public Person operationHistory(String username, String operation) {
         File file = new File("applicationLogs.txt");
 
         try {
@@ -46,7 +54,7 @@ public class FileServiceImpl implements FileServiceInter {
                 file.createNewFile();
             }
             FileWriter fileWriter = new FileWriter(file, true);
-            fileWriter.write("Person with username: " + username + " logged in -> Time: " + LocalDateTime.now() + "\n");
+            fileWriter.write("Person with username: " + username + " " + operation + " " + "Time: " + LocalDateTime.now() + "\n");
 
             fileWriter.flush();
             fileWriter.close();

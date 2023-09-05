@@ -17,6 +17,7 @@ public class Person implements Serializable{
     private String username;
 
     private String password;
+    private boolean isBlocked = false;
 
 
     public Person() {
@@ -35,6 +36,14 @@ public class Person implements Serializable{
         this.password = password;
     }
 
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
 
     public String getSurname() {
         return surname;
@@ -87,7 +96,7 @@ public class Person implements Serializable{
                 "surname='" + surname + '\'' +
                 ", name='" + name + '\'' +
                 ", birthdate=" + birthdate +
-                ", age=" + Period.between(birthdate,LocalDate.now()).getYears() +
+//                ", age=" + Period.between(birthdate,LocalDate.now()).getYears() +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

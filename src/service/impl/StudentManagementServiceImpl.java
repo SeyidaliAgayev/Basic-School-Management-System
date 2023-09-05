@@ -9,20 +9,29 @@ import service.StudentServiceInter;
 import static util.MenuUtil.*;
 import model.Student;
 
+import java.util.InputMismatchException;
+
 public class StudentManagementServiceImpl implements StudentManagementServiceInter {
+    private static StudentManagementServiceImpl instance = null;
+    private StudentManagementServiceImpl() {
+
+    }
+
+    public static StudentManagementServiceImpl getInstance() {
+        return instance == null ? new StudentManagementServiceImpl() : instance;
+    }
+
     @Override
     public void studentManagement() {
-        StudentServiceInter studentServiceInter = new StudentServiceImpl();
-        FileServiceImpl fileService = new FileServiceImpl();
         while (true) {
             try {
                 int option = studentMenu();
                 switch (option) {
                     case 1:
-                        studentServiceInter.studentLogIn();
+                        StudentServiceImpl.getInstance().studentLogIn();
                         break;
                     case 2:
-                        studentServiceInter.seeInfo();
+                        StudentServiceImpl.getInstance().seeInfo();
                         break;
                     case 0:
                         System.exit(-1);
@@ -31,10 +40,9 @@ public class StudentManagementServiceImpl implements StudentManagementServiceInt
                 }
             } catch (ServiceExceptions exception) {
                 System.err.println(exception.getMessage());
-            } catch (RuntimeException exception) {
-                exception.printStackTrace();
+            } catch (InputMismatchException exception) {
+                System.err.println("Wrong Input!");
             }
-
         }
     }
 }
