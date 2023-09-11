@@ -2,10 +2,9 @@ package service.impl;
 
 import enums.ExceptionEnum;
 import exceptions.ServiceExceptions;
-import files.FileServiceInter;
 import files.impl.FileServiceImpl;
 import service.AdminManagementServiceInter;
-import service.AdminServiceInter;
+import service.ClassesServiceInter;
 
 import java.util.InputMismatchException;
 
@@ -79,8 +78,13 @@ public class AdminManagementServiceImpl implements AdminManagementServiceInter {
                     case 17:
                         BaseManagementServiceImpl.getInstance().baseManagement();
                         break;
+                    case 18:
+                        ClassesServiceInter classesServiceInter = new ClassesServiceImpl();
+                        classesServiceInter.addStudentToClass();
+                        break;
                     case 0:
                         FileServiceImpl.getInstance().writeInformation("persons.txt");
+                        FileServiceImpl.getInstance().saveAllClasses("classes.txt");
                         System.exit(-1);
                         break;
                     default:

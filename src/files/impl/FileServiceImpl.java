@@ -2,6 +2,7 @@ package files.impl;
 
 import data.GlobalData;
 import data.PersonDynamicArrays;
+import data.impl.ClassesDynamicArray;
 import files.FileServiceInter;
 import model.Person;
 
@@ -63,16 +64,35 @@ public class FileServiceImpl implements FileServiceInter {
         }
         return null;
     }
+    public void saveAllClasses(String fileName) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)
+        ) {
+
+            objectOutputStream.writeObject(GlobalData.classesDynamicArray);
+            objectOutputStream.flush();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public ClassesDynamicArray readClassesDynamicArray(String fileName) {
+        try (FileInputStream fileInputStream = new FileInputStream(fileName);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        ) {
+            ClassesDynamicArray classesDynamicArray = (ClassesDynamicArray) objectInputStream.readObject();
+
+            return classesDynamicArray;
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+
+    }
+
 }
-//try {
-//        FileInputStream inputStream = new FileInputStream(filePath);
-//
-//        byte[] data = new byte[inputStream.available()];
-//        inputStream.read(data);
-//        for (int i = 0; i < data.length ; i++) {
-//        System.out.write(data[i]);
-//        }
-//        System.out.flush();
-//        } catch (IOException exception) {
-//        exception.printStackTrace();
-//        }
+

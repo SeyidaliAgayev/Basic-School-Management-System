@@ -1,11 +1,13 @@
 package service.impl;
 
+import classes.Classes;
 import data.GlobalData;
 import enums.ExceptionEnum;
 import enums.StatusEnum;
 import exceptions.ServiceExceptions;
 import files.impl.FileServiceImpl;
 import model.Person;
+import model.Student;
 import model.Teacher;
 import service.TeacherManagementServiceInter;
 import service.TeacherServiceInter;
@@ -26,13 +28,13 @@ public class TeacherServiceImpl implements TeacherServiceInter {
 
     @Override
     public void seeAllClasses() {
-        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
-            Person person = GlobalData.personDynamicArrays.get(i);
-            if (person instanceof Teacher) {
-                Teacher teacher = (Teacher) person;
-                System.out.println(teacher.getTeacherClass().toString());
+        for (int i = 0; i < GlobalData.classesDynamicArray.getSize(); i++) {
+            Classes classes = GlobalData.classesDynamicArray.get(i);
+            System.out.println(classes.getName());
+            for (int j = 0; j < classes.getStudentsDynamicArray().size(); j++) {
+                Student student = (Student) classes.getStudentsDynamicArray().get(j);
+                System.out.println(student);
             }
-
         }
     }
 

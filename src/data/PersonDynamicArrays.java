@@ -1,7 +1,7 @@
 package data;
 import model.Person;
 
-public interface PersonDynamicArrays{
+public interface PersonDynamicArrays {
     void add(Person person);
     Person get(int index);
     void deleteForName(Person person);

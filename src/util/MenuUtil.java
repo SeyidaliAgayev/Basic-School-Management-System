@@ -36,6 +36,7 @@ public class MenuUtil {
                            <15> See All Information (Students)
                            <16> See All Information (Teachers)
                            <17> Back To Log In
+                           <18> Add Student to Class
                            <0> Exit!
                            ++++++++++++++++++++++++++++++++++++++++++++
                            """
