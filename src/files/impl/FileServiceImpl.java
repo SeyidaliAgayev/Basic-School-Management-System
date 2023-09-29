@@ -1,8 +1,8 @@
 package files.impl;
 
+import classes.Classes;
 import data.GlobalData;
-import data.PersonDynamicArrays;
-import data.impl.ClassesDynamicArray;
+import data.impl.DynamicArray;
 import files.FileServiceInter;
 import model.Person;
 
@@ -39,7 +39,10 @@ public class FileServiceImpl implements FileServiceInter {
             FileInputStream fileInputStream = new FileInputStream(filePath);
             ObjectInputStream inputStream = new ObjectInputStream(fileInputStream);
 
-            GlobalData.personDynamicArrays = (PersonDynamicArrays) inputStream.readObject();
+            if (inputStream.readObject() instanceof DynamicArray<?>) {
+                GlobalData.personDynamicArrays = (DynamicArray<Person>) inputStream.readObject();
+            }
+
             fileInputStream.close();
             inputStream.close();
         } catch (IOException | ClassNotFoundException exception) {
@@ -77,11 +80,11 @@ public class FileServiceImpl implements FileServiceInter {
         }
     }
 
-    public ClassesDynamicArray readClassesDynamicArray(String fileName) {
+    public DynamicArray<Classes> readClassesDynamicArray(String fileName) {
         try (FileInputStream fileInputStream = new FileInputStream(fileName);
              ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         ) {
-            ClassesDynamicArray classesDynamicArray = (ClassesDynamicArray) objectInputStream.readObject();
+            DynamicArray<Classes> classesDynamicArray = (DynamicArray<Classes>) objectInputStream.readObject();
 
             return classesDynamicArray;
 

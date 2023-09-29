@@ -21,7 +21,7 @@ public class ClassesServiceImpl implements ClassesServiceInter {
 
         String selectedClassName = inputRequiredString("Please enter class name to add Student");
         Classes selectedClasses = null;
-        for (int i = 0; i < GlobalData.classesDynamicArray.getSize(); i++) {
+        for (int i = 0; i < GlobalData.classesDynamicArray.size(); i++) {
             Classes classes = GlobalData.classesDynamicArray.get(i);
             if (classes.getName().equalsIgnoreCase(selectedClassName)) {
                 selectedClasses = classes;

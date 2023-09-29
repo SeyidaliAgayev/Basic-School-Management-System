@@ -2,6 +2,7 @@ package service.impl;
 
 import enums.ExceptionEnum;
 import exceptions.ServiceExceptions;
+import files.impl.FileServiceImpl;
 import service.TeacherManagementServiceInter;
 import service.TeacherServiceInter;
 
@@ -35,6 +36,7 @@ public class TeacherManagementServiceImpl implements TeacherManagementServiceInt
                         TeacherServiceImpl.getInstance().seeAllTeachers();
                         break;
                     case 0:
+                        FileServiceImpl.getInstance().saveAllClasses("classes.txt");
                         System.exit(-1);
                     default:
                         throw new ServiceExceptions(ExceptionEnum.INVALID_OPTION);

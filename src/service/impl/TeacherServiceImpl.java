@@ -28,7 +28,7 @@ public class TeacherServiceImpl implements TeacherServiceInter {
 
     @Override
     public void seeAllClasses() {
-        for (int i = 0; i < GlobalData.classesDynamicArray.getSize(); i++) {
+        for (int i = 0; i < GlobalData.classesDynamicArray.size(); i++) {
             Classes classes = GlobalData.classesDynamicArray.get(i);
             System.out.println(classes.getName());
             for (int j = 0; j < classes.getStudentsDynamicArray().size(); j++) {

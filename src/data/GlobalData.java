@@ -1,22 +1,19 @@
 package data;
 
 import classes.Classes;
-import data.impl.ClassesDynamicArray;
-import data.impl.PersonDynamicArrayImpl;
+import data.impl.DynamicArray;
 import files.impl.FileServiceImpl;
+import model.Person;
 
 import java.io.*;
 
 public class GlobalData implements Serializable{
-    public static PersonDynamicArrays personDynamicArrays = new PersonDynamicArrayImpl();
-    public static ClassesDynamicArray classesDynamicArray = new ClassesDynamicArray();
+    public static DynamicArray<Person> personDynamicArrays;
+    public static DynamicArray<Classes> classesDynamicArray;
 
 
     static {
         FileServiceImpl.getInstance().readInformation("persons.txt");
-        Classes classes = new Classes();
-        classes.setName("11A");
-        classes.setStudentsDynamicArray(new PersonDynamicArrayImpl());
-        classesDynamicArray.add(classes);
+        classesDynamicArray = FileServiceImpl.getInstance().readClassesDynamicArray("classes.txt");
     }
 }

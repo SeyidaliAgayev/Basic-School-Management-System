@@ -84,7 +84,6 @@ public class AdminManagementServiceImpl implements AdminManagementServiceInter {
                         break;
                     case 0:
                         FileServiceImpl.getInstance().writeInformation("persons.txt");
-                        FileServiceImpl.getInstance().saveAllClasses("classes.txt");
                         System.exit(-1);
                         break;
                     default:

@@ -1,18 +1,19 @@
 package classes;
 
-import data.impl.PersonDynamicArrayImpl;
+import data.impl.DynamicArray;
 
 import java.io.Serializable;
 
-public class Classes implements Serializable {
+public class Classes<T> implements Serializable {
+
     private String name ;
-    private PersonDynamicArrayImpl studentsDynamicArray;
+    private DynamicArray<T> studentsDynamicArray;
 
     public Classes(){
 
     }
 
-    public Classes(String name, PersonDynamicArrayImpl studentsDynamicArray) {
+    public Classes(String name, DynamicArray<T> studentsDynamicArray) {
         this.name = name;
         this.studentsDynamicArray = studentsDynamicArray;
     }
@@ -25,11 +26,11 @@ public class Classes implements Serializable {
         this.name = name;
     }
 
-    public PersonDynamicArrayImpl getStudentsDynamicArray() {
-        return studentsDynamicArray;
+    public DynamicArray<T> getStudentsDynamicArray() {
+        return  studentsDynamicArray;
     }
 
-    public void setStudentsDynamicArray(PersonDynamicArrayImpl studentsDynamicArray) {
+    public void setStudentsDynamicArray(DynamicArray<T> studentsDynamicArray) {
         this.studentsDynamicArray = studentsDynamicArray;
     }
 
