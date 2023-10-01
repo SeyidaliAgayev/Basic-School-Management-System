@@ -1,9 +1,10 @@
-import classes.Classes;
+
 import data.GlobalData;
 import service.impl.BaseManagementServiceImpl;
 
 
-public class Main {
+public class
+Main {
     public static void main(String[] args) {
 
         for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
@@ -11,5 +12,4 @@ public class Main {
         }
         BaseManagementServiceImpl.getInstance().baseManagement();
     }
-
 }

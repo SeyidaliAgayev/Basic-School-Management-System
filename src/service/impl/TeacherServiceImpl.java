@@ -58,48 +58,4 @@ public class TeacherServiceImpl implements TeacherServiceInter {
             throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
         }
     }
-
-    @Override
-    public Person teacherLogIn() {
-        if (GlobalData.personDynamicArrays.size() == 0 || GlobalData.personDynamicArrays == null) {
-            throw new ServiceExceptions(ExceptionEnum.EMPTY_LIST);
-        }
-        String username = inputRequiredString("Please insert username: ");
-        boolean isFound = false;
-        boolean isLoggedIn = false;
-        for (int i = 0; i < GlobalData.personDynamicArrays.size(); i++) {
-            Person person = GlobalData.personDynamicArrays.get(i);
-            if (person instanceof Teacher) {
-                Teacher teacher = (Teacher) person;
-                if (teacher.getUsername().equals(username)) {
-                    isFound = true;
-                    if (teacher.isBlocked() == false) {
-                        for (int j = 0; j < 3; j++) {
-                            String password = inputRequiredString("Please insert password: ");
-                            if (teacher.getPassword().equals(password)) {
-                                isLoggedIn = true;
-                                FileServiceImpl.getInstance().operationHistory(teacher.getUsername(), "Logged in");
-                                TeacherManagementServiceImpl.getInstance().teacherManagement();
-                                return teacher;
-                            } else {
-                                System.err.println("Password is not correct!");
-                            }
-                            if (j == 2) {
-                                teacher.blockTeacher();
-                                FileServiceImpl.getInstance().operationHistory(teacher.getUsername(), "Has been blocked!");
-                                BaseManagementServiceImpl.getInstance().baseManagement();
-                            }
-                        }
-                    }
-                    else {
-                        System.err.println("You have been blocked please contact with admin!");
-                    }
-                }
-            }
-        }
-        if (!isLoggedIn) {
-            throw new ServiceExceptions(ExceptionEnum.LOG_IN_DENIED);
-        }
-        return null;
-    }
 }

@@ -1,6 +1,5 @@
 package data.impl;
 
-import model.Person;
 
 import java.io.Serializable;
 

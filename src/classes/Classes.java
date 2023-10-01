@@ -6,23 +6,23 @@ import java.io.Serializable;
 
 public class Classes<T> implements Serializable {
 
-    private String name ;
+    private T name ;
     private DynamicArray<T> studentsDynamicArray;
 
     public Classes(){
 
     }
 
-    public Classes(String name, DynamicArray<T> studentsDynamicArray) {
+    public Classes(T name, DynamicArray<T> studentsDynamicArray) {
         this.name = name;
         this.studentsDynamicArray = studentsDynamicArray;
     }
 
-    public String getName() {
+    public T getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(T name) {
         this.name = name;
     }
 

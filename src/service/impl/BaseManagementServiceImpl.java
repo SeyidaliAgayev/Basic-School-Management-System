@@ -2,6 +2,9 @@ package service.impl;
 
 import enums.ExceptionEnum;
 import exceptions.ServiceExceptions;
+import model.Admin;
+import model.Student;
+import model.Teacher;
 import service.*;
 
 import java.util.InputMismatchException;
@@ -26,7 +29,7 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
                 int option = entryMenu();
                 switch (option) {
                     case 1:
-                        StudentServiceImpl.getInstance().studentLogIn();
+                        LogInServiceImpl.getInstance().logIn(Student.class);
                         isLoggedIn = true;
                         if (isLoggedIn) {
                             StudentManagementServiceImpl.getInstance().studentManagement();
@@ -35,7 +38,7 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
                         }
                         break;
                     case 2:
-                        TeacherServiceImpl.getInstance().teacherLogIn();
+                        LogInServiceImpl.getInstance().logIn(Teacher.class);
                         isLoggedIn = true;
                         if (isLoggedIn) {
                             TeacherManagementServiceImpl.getInstance().teacherManagement();
@@ -44,7 +47,7 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
                         }
                         break;
                     case 3:
-                        AdminServiceImpl.getInstance().adminLogIn();
+                        LogInServiceImpl.getInstance().logIn(Admin.class);
                         isLoggedIn = true;
                         if (isLoggedIn) {
                             AdminManagementServiceImpl.getInstance().adminManagement();

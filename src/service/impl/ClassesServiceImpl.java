@@ -23,7 +23,7 @@ public class ClassesServiceImpl implements ClassesServiceInter {
         Classes selectedClasses = null;
         for (int i = 0; i < GlobalData.classesDynamicArray.size(); i++) {
             Classes classes = GlobalData.classesDynamicArray.get(i);
-            if (classes.getName().equalsIgnoreCase(selectedClassName)) {
+            if (classes.getName().equals(selectedClassName)) {
                 selectedClasses = classes;
             }
 

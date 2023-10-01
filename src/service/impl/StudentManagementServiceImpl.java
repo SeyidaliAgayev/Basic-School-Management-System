@@ -28,7 +28,7 @@ public class StudentManagementServiceImpl implements StudentManagementServiceInt
                 int option = studentMenu();
                 switch (option) {
                     case 1:
-                        StudentServiceImpl.getInstance().studentLogIn();
+//                        StudentServiceImpl.getInstance().studentLogIn();
                         break;
                     case 2:
                         StudentServiceImpl.getInstance().seeInfo();

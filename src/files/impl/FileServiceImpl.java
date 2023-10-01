@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 
 public class FileServiceImpl implements FileServiceInter {
+
     private static FileServiceImpl instance = null;
     private FileServiceImpl() {
     }
@@ -34,20 +35,18 @@ public class FileServiceImpl implements FileServiceInter {
     }
 
     @Override
-    public void readInformation(String filePath) {
+    public DynamicArray<Person> readInformation(String filePath) {
         try {
             FileInputStream fileInputStream = new FileInputStream(filePath);
             ObjectInputStream inputStream = new ObjectInputStream(fileInputStream);
 
-            if (inputStream.readObject() instanceof DynamicArray<?>) {
-                GlobalData.personDynamicArrays = (DynamicArray<Person>) inputStream.readObject();
-            }
-
+            GlobalData.personDynamicArrays = (DynamicArray<Person>) inputStream.readObject();
             fileInputStream.close();
             inputStream.close();
         } catch (IOException | ClassNotFoundException exception) {
             exception.printStackTrace();
         }
+        return null;
     }
 
     public Person operationHistory(String username, String operation) {
@@ -84,9 +83,9 @@ public class FileServiceImpl implements FileServiceInter {
         try (FileInputStream fileInputStream = new FileInputStream(fileName);
              ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         ) {
-            DynamicArray<Classes> classesDynamicArray = (DynamicArray<Classes>) objectInputStream.readObject();
+            DynamicArray<?> classesDynamicArray = (DynamicArray<?>) objectInputStream.readObject();
 
-            return classesDynamicArray;
+            return (DynamicArray<Classes>) classesDynamicArray;
 
         } catch (IOException ex) {
             ex.printStackTrace();

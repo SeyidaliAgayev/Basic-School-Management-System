@@ -1,5 +1,7 @@
 package service;
 
+import model.Person;
+
 public interface AdminServiceInter {
     void seeAllTeachersInformation();
     void seeAllStudentsInformation();
@@ -16,6 +18,6 @@ public interface AdminServiceInter {
     void blockTeacher();
     void getTeacherById();
     void searchForStudent();
-    void adminLogIn();
+
 
 }

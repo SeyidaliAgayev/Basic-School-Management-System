@@ -6,5 +6,5 @@ import model.Teacher;
 public interface TeacherServiceInter {
     void seeAllClasses();
     void seeAllTeachers();
-    Person teacherLogIn();
+//    Person teacherLogIn();
 }

@@ -27,7 +27,7 @@ public class TeacherManagementServiceImpl implements TeacherManagementServiceInt
                 int option = teacherMenu();
                 switch (option) {
                     case 1:
-                        TeacherServiceImpl.getInstance().teacherLogIn();
+//                        TeacherServiceImpl.getInstance().teacherLogIn();
                         break;
                     case 2:
                         TeacherServiceImpl.getInstance().seeAllClasses();

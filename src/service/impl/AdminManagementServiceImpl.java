@@ -3,6 +3,7 @@ package service.impl;
 import enums.ExceptionEnum;
 import exceptions.ServiceExceptions;
 import files.impl.FileServiceImpl;
+import model.Admin;
 import service.AdminManagementServiceInter;
 import service.ClassesServiceInter;
 
@@ -61,7 +62,7 @@ public class AdminManagementServiceImpl implements AdminManagementServiceInter {
                         AdminServiceImpl.getInstance().searchForTeacher();
                         break;
                     case 12:
-                        AdminServiceImpl.getInstance().adminLogIn();
+                        LogInServiceImpl.getInstance().logIn(Admin.class);
                         break;
                     case 13:
                         AdminServiceImpl.getInstance().getStudentById();
