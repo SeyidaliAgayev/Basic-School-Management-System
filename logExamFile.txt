@@ -1,0 +1,7 @@
+
+Person with username: studentali
+Exam Point: 2
+Person with username: studentali
+Exam Point: 2
+Person with username: studentali
+Exam Point: 3

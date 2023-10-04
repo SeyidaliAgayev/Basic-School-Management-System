@@ -13,7 +13,7 @@ import static util.MenuUtil.*;
 
 public class BaseManagementServiceImpl implements BaseManagementServiceInter {
     private static BaseManagementServiceImpl instance = null;
-    private BaseManagementServiceImpl() {
+    public BaseManagementServiceImpl() {
 
     }
 
@@ -29,10 +29,10 @@ public class BaseManagementServiceImpl implements BaseManagementServiceInter {
                 int option = entryMenu();
                 switch (option) {
                     case 1:
-                        LogInServiceImpl.getInstance().logIn(Student.class);
+                        Student student = (Student) LogInServiceImpl.getInstance().logIn(Student.class);
                         isLoggedIn = true;
                         if (isLoggedIn) {
-                            StudentManagementServiceImpl.getInstance().studentManagement();
+                            StudentManagementServiceImpl.getInstance().studentManagement(student);
                         } else {
                             System.err.println("Log In Unsuccessfully!");
                         }

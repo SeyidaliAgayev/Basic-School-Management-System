@@ -83,6 +83,10 @@ public class AdminManagementServiceImpl implements AdminManagementServiceInter {
                         ClassesServiceInter classesServiceInter = new ClassesServiceImpl();
                         classesServiceInter.addStudentToClass();
                         break;
+                    case 19:
+                        ExamServiceImpl examService = new ExamServiceImpl();
+                        examService.addQuestions();
+                        break;
                     case 0:
                         FileServiceImpl.getInstance().writeInformation("persons.txt");
                         System.exit(-1);

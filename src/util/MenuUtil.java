@@ -37,6 +37,7 @@ public class MenuUtil {
                            <16> See All Information (Teachers)
                            <17> Back To Log In
                            <18> Add Student to Class
+                           <19> Add question for exam
                            <0> Exit!
                            ++++++++++++++++++++++++++++++++++++++++++++
                            """
@@ -60,7 +61,7 @@ public class MenuUtil {
     public static int studentMenu() {
         System.out.println("""
                            ++++++++++++++++++++++++++++++++++++++++++++
-                           <1> Student Log In
+                           <1> Start exam!
                            <2> See Info!
                            <0> Exit!
                            ++++++++++++++++++++++++++++++++++++++++++++

@@ -23,11 +23,12 @@ public class LogInServiceImpl implements LogInServiceInter {
 
 
     boolean isBlocked = false;
-    public <T extends Person> void logIn(Class<T> personType) {
+    public <T extends Person> Person logIn(Class<T> personType) {
         String adminUsername = inputRequiredString("Please enter username: ");
         boolean personExists = false;
         boolean passwordIsCorrect = false;
         boolean isLoggedIn = false;
+        Person loggedInPerson = null;
 
         {
             FileServiceImpl.getInstance().operationHistory(adminUsername, "Logged in");
@@ -43,6 +44,7 @@ public class LogInServiceImpl implements LogInServiceInter {
                         if (person.getPassword().equals(password)) {
                             passwordIsCorrect = true;
                             isLoggedIn = true;
+                            loggedInPerson = person;
                             failedAttempts = 0;
                             System.out.println(StatusEnum.LOG_IN_SUCCESSFULLY);
                             break;
@@ -74,5 +76,6 @@ public class LogInServiceImpl implements LogInServiceInter {
                 throw new ServiceExceptions(ExceptionEnum.INCORRECT_PASSWORD);
             }
         }
+        return loggedInPerson;
     }
 }
