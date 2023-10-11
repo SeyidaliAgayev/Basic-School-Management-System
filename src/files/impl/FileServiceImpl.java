@@ -66,11 +66,28 @@ public class FileServiceImpl implements FileServiceInter {
         }
         return null;
     }
+    public Person writeLogToFile(String username, String log) {
+        File file = new File("logExamFile.txt");
+
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fileWriter = new FileWriter(file, true);
+            fileWriter.write(log + " Time: " + LocalDateTime.now() + "\n");
+
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        return null;
+    }
+
     public void saveAllClasses(String fileName) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)
         ) {
-
             objectOutputStream.writeObject(GlobalData.classesDynamicArray);
             objectOutputStream.flush();
 

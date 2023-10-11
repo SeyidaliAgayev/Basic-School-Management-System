@@ -5,3 +5,42 @@ Person with username: studentali
 Exam Point: 2
 Person with username: studentali
 Exam Point: 3
+Student: studentali
+Exam finished in: 0
+Point: 2Time: 2023-10-09T10:28:43.533312300
+Student: studentali
+Exam finished in: 0
+Point: 2Time: 2023-10-09T10:29:22.964593
+Student: studentali
+Exam finished in: 0
+Point: 2 Time: 2023-10-09T10:39:09.017840300
+Student: studentali
+Exam finished in: 0
+Point: 3 Time: 2023-10-09T10:39:49.468202300
+Student: studentali
+Exam finished in: 0
+Point: 2 Time: 2023-10-09T10:47:03.234917900
+Student: studentali
+Exam finished in: 0
+Point: 2 Time: 2023-10-09T10:47:39.064839800
+Student: studentali
+Exam finished in: 0
+Point: 0 Time: 2023-10-09T10:57:27.285313
+Student: studentali
+Exam finished in: 0
+Point: 0 Time: 2023-10-09T10:57:51.151685900
+Student: studentali
+Exam finished in: 0
+Point: 0 Time: 2023-10-09T10:58:21.668307600
+Student: studentali
+Exam finished in: 0
+Point: 3 Time: 2023-10-09T11:11:25.732877100
+Student: studentali
+Exam finished in: 9
+Point: 3 Time: 2023-10-11T21:30:41.161743600
+Student: studentali
+Exam finished in: 15
+Point: 3
+Student: studentali
+Exam finished in: 5
+Point: 3 Time: 2023-10-11T22:17:42.244502300

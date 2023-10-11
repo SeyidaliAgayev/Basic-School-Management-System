@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="examManagementSystem">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../examManagementSystem/out/artifacts/examManagementSystem_jar/examManagementSystem.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

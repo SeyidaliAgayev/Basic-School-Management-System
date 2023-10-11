@@ -1,5 +1,6 @@
 package service.impl;
 
+import data.GlobalData;
 import enums.ExceptionEnum;
 import exceptions.ServiceExceptions;
 import files.impl.FileServiceImpl;
@@ -27,7 +28,8 @@ public class TeacherManagementServiceImpl implements TeacherManagementServiceInt
                 int option = teacherMenu();
                 switch (option) {
                     case 1:
-//                        TeacherServiceImpl.getInstance().teacherLogIn();
+                        ExamManagementServiceImpl examManagementService = new ExamManagementServiceImpl();
+                        examManagementService.addQuestion(GlobalData.questionsAnswersMap, "QA.txt");
                         break;
                     case 2:
                         TeacherServiceImpl.getInstance().seeAllClasses();

@@ -1,14 +1,6 @@
 
 import data.GlobalData;
-
-
-import model.Student;
 import service.impl.BaseManagementServiceImpl;
-import service.impl.ExamServiceImpl;
-
-import static service.impl.LogInServiceImpl.*;
-
-
 
 public class
 Main {

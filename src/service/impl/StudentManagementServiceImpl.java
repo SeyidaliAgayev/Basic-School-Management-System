@@ -10,6 +10,7 @@ import service.StudentServiceInter;
 import static util.MenuUtil.*;
 import model.Student;
 import static helper.TimeHelper.*;
+import static util.InputUtil.*;
 
 import java.util.InputMismatchException;
 
@@ -30,11 +31,14 @@ public class StudentManagementServiceImpl implements StudentManagementServiceInt
                 int option = studentMenu();
                 switch (option) {
                     case 1:
+                        int questionCount = inputRequiredInt("Please insert number of questions which you want in exam: ");
                         timeCounter();
-                        ExamServiceImpl examService = new ExamServiceImpl();
-                        examService.startExam(student.getUsername());
-
+                        ExamManagementServiceImpl examManagementService = new ExamManagementServiceImpl();
+                        String log = examManagementService.startExam(student.getUsername(), "QA.txt",questionCount );
+                        FileServiceImpl.getInstance().writeLogToFile(student.getUsername(), log);
+                        System.out.println();
                         System.out.println(StatusEnum.EXAM_ENDED);
+
                         break;
                     case 2:
                         StudentServiceImpl.getInstance().seeInfo();
